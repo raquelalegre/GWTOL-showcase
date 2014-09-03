@@ -1,0 +1,38 @@
+Developer Reference
+
+  This reference is for people that would like to develop on GWT-OpenLayers itself.
+  People that would just like to use GWT-OpenLayers in their projects should check out the {{{user-reference.html}user reference}}.
+
+* Clone and go
+
+  GWT-OpenLayers uses Github for version control.
+
+  The easiest way to start developing on GWT-OpenLayers is by cloning the public github repository:
+
++--
+https://github.com/geosdi/GWT-OpenLayers
++--
+
+* Building GWT-OpenLayers from source
+
+  Maven is used to build GWT-OpenLayers. Maven has good GWT support with the {{{http://mojo.codehaus.org/gwt-maven-plugin/}Maven GWT plugin}}.
+  To build GWT-OpenLayers using Maven, open the commandline at gwt-openlayers-client and run:
+
++--
+>mvn package
++--
+
+  This produces a GWT module jar that you can use in GWT applications. The server side part (currently consisting of an Ajax Proxy for by-passing the same origin policy) is packaged in the same way.
+
+* Setting up a development environment
+
+  Here we will explain different ways to develop on different OS's
+
+* How to ...
+
+  Some cookbook examples on how to extend GWT-OpenLayers
+
+
+More information
+
+  Currently, more information about developing GWT-OpenLayers is still found in our Trac {{{http://sourceforge.net/apps/trac/gwt-openlayers/wiki/Developer_reference}wiki}}.
