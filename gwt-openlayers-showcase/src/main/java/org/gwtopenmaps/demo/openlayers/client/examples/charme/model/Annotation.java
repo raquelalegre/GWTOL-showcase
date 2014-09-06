@@ -35,44 +35,44 @@
 
 package org.gwtopenmaps.demo.openlayers.client.examples.charme.model;
 
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONString;
+import com.google.gwt.json.client.JSONValue;
+
 public class Annotation {
 
-	String body;
-	String target;
-	String motivation;
-	String type;
-	String content;
-	SpecificResource sr;
-	SubsetSelector ss;
+	private final String body;
+	private final String target;
+	private final String motivation;
+	private final String type;
+	private final String content;
+	private final SpecificResource sr;
+	private final SubsetSelector ss;
 
-	public void setBody(String body) {
+	public Annotation(String body, String target, String motivation,
+			String type, String content, SpecificResource sr, SubsetSelector ss) {
+		super();
 		this.body = body;
-	}
-	
-	public void setTarget(String target) {
 		this.target = target;
-	}
-
-	public void setMotivation(String motivation) {
 		this.motivation = motivation;
-	}
-	
-	public void setType(String type) {
 		this.type = type;
-	}
-	
-	public void setContent(String content) {
 		this.content = content;
-	}
-
-	public void setSpecificResource(SpecificResource sr) {
 		this.sr = sr;
-	}
-
-	public void setSubsetSelector(SubsetSelector ss) {
 		this.ss = ss;
 	}
 
+	public Annotation(JSONValue json) {
+		// TODO parse json
+		this.body = null;
+		this.target = null;
+		this.motivation = null;
+		this.type = null;
+		this.content = null;
+		this.sr = null;
+		this.ss = null;
+	}
+	
 	public String getBody() {
 		return this.body;
 	}
@@ -108,7 +108,57 @@ public class Annotation {
 				+ ", content=" + content + ", sr=" + sr + ", ss=" + ss + "]";
 	}
 	
+	public JSONValue toJson() {
+		JSONArray annotationJson = new JSONArray();
+		
+		annotationJson.set(0, createBodyJson());
+		annotationJson.set(1, createTemporalExtent());
 
+		
+		
+		
+		
+		return annotationJson;
+	}
+
+
+//	  {
+//		    "@id": "chnode:bodyID",
+//		    "@type": [
+//		      "http://www.charme.org.uk/def/user_comment"
+//		    ],
+//		    "http://www.charme.org.uk/def/hasContent": [
+//		      {
+//		        "@type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#text",
+//		        "@value": "There is sampling station here"
+//		      }
+//		    ]
+//		  },
+	private JSONValue createBodyJson() {
+		JSONObject body = new JSONObject();
+		body.put("@id", new JSONString("chnode:bodyID"));
+		body.put("@type", createBodyType());
+		body.put("http://www.charme.org.uk/def/hasContent", createBodyHasContent());
+		return body;
+	}
+
+
+	private JSONValue createBodyType() {
+		JSONArray array = new JSONArray();
+		array.set(0, new JSONString("http://www.charme.org.uk/def/user_comment"));
+		return array;
+	}
 	
+	private JSONValue createBodyHasContent() {
+		JSONObject hasContent = new JSONObject();
+		hasContent.put("@type", new JSONString("http://www.w3.org/1999/02/22-rdf-syntax-ns#text"));
+		hasContent.put("@value", new JSONString(this.content));
+		return hasContent;
+	}
+
+	private JSONValue createTemporalExtent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

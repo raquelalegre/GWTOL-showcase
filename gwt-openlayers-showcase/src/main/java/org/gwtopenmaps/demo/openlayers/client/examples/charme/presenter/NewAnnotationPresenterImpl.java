@@ -54,18 +54,13 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 		sr.setSource(source);
 
 		// /
-		Annotation annotation = new Annotation();
+		
 		String body = null; // URI of the subset selector?
-		annotation.setBody(body);
 		String target = null; // URI of the subset selector
-		annotation.setTarget(target);
-		annotation.setType(type);
-		annotation.setMotivation(motivation);
-		annotation.setContent(comment);
-		annotation.setSpecificResource(sr);
-		annotation.setSubsetSelector(ss);
 
-		System.out.println("Annotation created: " + annotation.toString());
+		final Annotation annotation = new Annotation(body, target, type, motivation, comment, sr, ss);
+
+		System.out.println("Annotation created: " + annotation.toJson());
 		
 		// Serialise (Java Object -> JSON) using GSON
 //		Gson gson = new Gson();
