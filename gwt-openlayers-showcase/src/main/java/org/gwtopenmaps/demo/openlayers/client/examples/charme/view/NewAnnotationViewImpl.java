@@ -1,13 +1,12 @@
-package org.gwtopenmaps.demo.openlayers.client.examples.charme;
+package org.gwtopenmaps.demo.openlayers.client.examples.charme.view;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.gwtopenmaps.demo.openlayers.client.DialogBoxWithCloseButton;
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenter;
 import org.gwtopenmaps.openlayers.client.LonLat;
 
-//import com.google.gson.Gson;
-//import com.google.gson.GsonBuilder;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -21,18 +20,36 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class NewAnnotationPopup {
+public class NewAnnotationViewImpl extends VerticalPanel implements
+		NewAnnotationView, ClickHandler {
+
+	private NewAnnotationPresenter presenter;
+
+	private TextArea taGeometry;
+	private Button okButton;
+	private Button cancelButton;
+	private ListBox lbBegin;
+	private ListBox lbEnd;
+	private ListBox lbVars;
+	private TextArea taAnnot;
+	private TextBox tbBegin;
+	private TextBox tbEnd;
+	// private DialogBoxWithCloseButton dialogBox;
+	private ListBox lbAnnotType;
+	private ListBox lbMotivation;
+	private TextBox tbTags;
+	private ListBox lbDateFormat;
 
 	// constructor will eventually need geo boundaries, time boundaries, depth
 	// boundaries and current variable name
-	public NewAnnotationPopup(LonLat lonlat) {
+	public NewAnnotationViewImpl() {
 		// Prepare elements that will form part of the pop up panel
 
 		// Users can select type of annotation
 		// TODO: Check in data mode which are the annotation types
 		final Label lAnnotType = new Label();
 		lAnnotType.setText("Type: ");
-		final ListBox lbAnnotType = new ListBox();
+		lbAnnotType = new ListBox();
 		lbAnnotType.addItem("User Comment");
 		lbAnnotType.addItem("Citation");
 		lbAnnotType.addItem("Other...");
@@ -40,7 +57,7 @@ public class NewAnnotationPopup {
 		// Users can record a motivation for their new annotation
 		final Label lMotivation = new Label();
 		lMotivation.setText("Motivation:");
-		final ListBox lbMotivation = new ListBox();
+		lbMotivation = new ListBox();
 		lbMotivation.addItem("bookmarking");
 		lbMotivation.addItem("classifying");
 		lbMotivation.addItem("commenting");
@@ -58,7 +75,7 @@ public class NewAnnotationPopup {
 		// TODO: see how it's done in the plug-in
 		final Label lTags = new Label();
 		lTags.setText("Tags: ");
-		final TextBox tbTags = new TextBox();
+		tbTags = new TextBox();
 
 		final HorizontalPanel hpAnnotType = new HorizontalPanel();
 		hpAnnotType.add(lAnnotType);
@@ -76,27 +93,19 @@ public class NewAnnotationPopup {
 		hpAnnotType.setCellHorizontalAlignment(tbTags,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		// Users can choose date format for specifying a time subset
-		// TODO: Ask PK what other formats
-		// TODO: Function to translate times to xsd:dateTime and viceversa
-		// TODO: Get from data start and end of period to prevent users from
-		// introducing dates out of bounds
-		final ListBox lbDateFormat = new ListBox();
+		lbDateFormat = new ListBox();
 		lbDateFormat.addItem("DD/MM/YYYY hh:mm:ss");
 		lbDateFormat.addItem("MJD2000");
 		lbDateFormat.addItem("YYYYMMDDThh:mm:ss");
 		final Label lDateFormat = new Label();
 		lDateFormat.setText("Format: ");
 
-		// Users can select a depth subset
-		// TODO: Get depth boundaries from dataset to prevent out of bounds
-		// TODO: Units?
-		final ListBox lbBegin = new ListBox();
+		lbBegin = new ListBox();
 		lbBegin.addItem("0");
 		lbBegin.addItem("-5");
 		lbBegin.addItem("-10");
 		lbBegin.addItem("-15");
-		final ListBox lbEnd = new ListBox();
+		lbEnd = new ListBox();
 		lbEnd.addItem("0");
 		lbEnd.addItem("-5");
 		lbEnd.addItem("-10");
@@ -120,7 +129,7 @@ public class NewAnnotationPopup {
 		// TODO: get var list from dataset
 		final Label lVars = new Label();
 		lVars.setText("Which variables in the dataset does your comment apply to?");
-		final ListBox lbVars = new ListBox();
+		lbVars = new ListBox();
 		lbVars.addItem("sea_ice_fraction");
 		lbVars.addItem("mask");
 		lbVars.addItem("analysed_sst");
@@ -136,9 +145,7 @@ public class NewAnnotationPopup {
 		vpVars.add(lVars);
 		vpVars.add(lbVars);
 
-		// Users can insert in the text area their free text comment about the
-		// subset
-		final TextArea taAnnot = new TextArea();
+		taAnnot = new TextArea();
 		taAnnot.setWidth("400");
 
 		// Label containing an explanation about what the pop up is trying to
@@ -153,10 +160,10 @@ public class NewAnnotationPopup {
 		vpAnnot.add(taAnnot);
 
 		// Users can confirm or cancel the comment they've made about the subset
-		final Button okButton = new Button();
+		okButton = new Button();
 		okButton.setText("OK");
 
-		final Button cancelButton = new Button();
+		cancelButton = new Button();
 		cancelButton.setText("Cancel");
 
 		// A flow panel will contain the OK and Cancel buttons
@@ -171,8 +178,8 @@ public class NewAnnotationPopup {
 		lDateBegin.setText("Begin: ");
 		final Label lDateEnd = new Label();
 		lDateEnd.setText("End: ");
-		final TextBox tbBegin = new TextBox();
-		final TextBox tbEnd = new TextBox();
+		tbBegin = new TextBox();
+		tbEnd = new TextBox();
 
 		// A Horizontal Panel will contain these
 		final HorizontalPanel hpPeriod = new HorizontalPanel();
@@ -187,113 +194,97 @@ public class NewAnnotationPopup {
 		// polygon... Maybe some text area for WKT areas?
 		final Label lCoords = new Label();
 		lCoords.setText("Introduce a WKT description of the geographical subset: ");
-		final TextArea taGeometry = new TextArea();
+		taGeometry = new TextArea();
 		taGeometry.setWidth("400");
-		taGeometry.setText("POINT(" + lonlat.lon() + " " + lonlat.lat() + ")");
 
 		// A Vertical Panel will contain these
 		final VerticalPanel vpGeometry = new VerticalPanel();
 		vpGeometry.add(lCoords);
 		vpGeometry.add(taGeometry);
 
-		final VerticalPanel vpPopup = new VerticalPanel();
-		vpPopup.setSize("600", "450");
-		vpPopup.add(vpAnnot);
-		vpPopup.add(vpGeometry);
-		vpPopup.add(hpPeriod);
-		vpPopup.add(vpDepth);
-		vpPopup.add(vpVars);
-		vpPopup.add(fpButtons);
-		vpPopup.setCellHorizontalAlignment(fpButtons,
+		this.setSize("600", "450");
+		this.add(vpAnnot);
+		this.add(vpGeometry);
+		this.add(hpPeriod);
+		this.add(vpDepth);
+		this.add(vpVars);
+		this.add(fpButtons);
+		this.setCellHorizontalAlignment(fpButtons,
 				HasHorizontalAlignment.ALIGN_CENTER);
-		vpPopup.setCellVerticalAlignment(fpButtons,
+		this.setCellVerticalAlignment(fpButtons,
 				HasVerticalAlignment.ALIGN_BOTTOM);
 
-		// Create new
-		final DialogBoxWithCloseButton dialogBox = new DialogBoxWithCloseButton(
-				false);
-		dialogBox.setWidget(vpPopup);
-		dialogBox.center();
-		dialogBox.setText("New Annotation");
-
 		// Button handlers
-		okButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+		okButton.addClickHandler(this);
+		cancelButton.addClickHandler(this);
+	}
 
-				// Check we have the necessary inputs from user
-				// mandatory: user comment
-				// dates make sense (ie stop is not before start, formats, etc)
-				// WKT is correct
-				// depth boundaries make sense
-				// at least one var chosen
+	@Override
+	public void setPresenter(NewAnnotationPresenter presenter) {
+		this.presenter = presenter;
+	}
 
-				// Save users input:
-				String type = lbAnnotType.getItemText(lbAnnotType
-						.getSelectedIndex());
-				String tags = tbTags.getText();
-				String motivation = lbMotivation.getItemText(lbMotivation
-						.getSelectedIndex());
-				String content = taAnnot.getText();
-				String geometry = taGeometry.getText();
-				String timeFormat = lbDateFormat.getItemText(lbAnnotType
-						.getSelectedIndex());
-				String validityStart = tbBegin.getText();
-				String validityStop = tbEnd.getText();
-				String depthStart = lbBegin.getItemText(lbBegin
-						.getSelectedIndex());
-				String depthStop = lbEnd.getItemText(lbEnd.getSelectedIndex());
-				List<String> variables = new ArrayList<String>();
-				for (int i = 0; i < lbVars.getItemCount(); i++) {
-					if (lbVars.isItemSelected(i))
-						variables.add(lbVars.getItemText(i));
-				}
+	@Override
+	public void initialiseView(LonLat lonlat) {
+		// TODO: create hierarchy of objects (point, line, polygon), each one
+		// with a method to create the appropriate string
+		taGeometry.setText("POINT(" + lonlat.lon() + " " + lonlat.lat() + ")");
+	}
 
-				// Create new Annotation object with user's input
+	@Override
+	public void onClick(ClickEvent event) {
+		if (event.getSource() == okButton) {
+			onOkButtonClicked();
+		} else if (event.getSource() == cancelButton) {
+			onCancelButtonClicked();
+		}
+	}
 
-				// Initialise a SubsetSelector
-				SubsetSelector ss = new SubsetSelector();
-				ss.setGeometry(geometry);
-				ss.setTimeFormat(timeFormat);
-				ss.setValidityStart(validityStart);
-				ss.setValidityStop(validityStop);
-				ss.setVariables(variables);
-				ss.setDepthStart(depthStart);
-				ss.setDepthStop(depthStop);
+	private void onOkButtonClicked() {
+		// Check we have the necessary inputs from user
+		// mandatory: user comment
+		// dates make sense (ie stop is not before start, formats, etc)
+		// WKT is correct
+		// depth boundaries make sense
+		// at least one var chosen
 
-				// Initialise a SpecificResource object
-				SpecificResource sr = new SpecificResource();
-				sr.setSelector(ss);
-				String source = null; // URI of the dataset
-				sr.setSource(source);
-				Annotation annotation = new Annotation();
-				String body = null; // URI of the subset selector?
-				annotation.setBody(body);
-				String target = null; // URI of the subset selector
-				annotation.setTarget(target);
-				annotation.setType(type);
-				annotation.setMotivation(motivation);
-				annotation.setContent(content);
-				annotation.setSpecificResource(sr);
-				annotation.setSubsetSelector(ss);
+		// Collect users input:
 
-				//Serialise (Java Object -> JSON) using GSON
-				//Gson gson = new Gson();
-				//gson.toJson(annotation);
-				//Gson gson = new GsonBuilder().setPrettyPrinting().create();
-				//String json = gson.toJson(annotation);
-				//System.out.println(json);
+		String type = lbAnnotType.getItemText(lbAnnotType.getSelectedIndex());
+		String motivation = lbMotivation.getItemText(lbMotivation
+				.getSelectedIndex());
+		String tags = tbTags.getText();
 
-				// Send to CHARMe Node
-				
+		String comment = taAnnot.getText();
 
-			}
-		});
-		cancelButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				dialogBox.hide();
-			}
-		});
+		String wktText = taGeometry.getText();
 
+		String timeFormat = lbDateFormat.getItemText(lbAnnotType
+				.getSelectedIndex());
+		String valStart = tbBegin.getText();
+		String valStop = tbEnd.getText();
+
+		String depthStart = lbBegin.getItemText(lbBegin.getSelectedIndex());
+		String depthStop = lbEnd.getItemText(lbEnd.getSelectedIndex());
+
+		List<String> variables = new ArrayList<String>();
+		for (int i = 0; i < lbVars.getItemCount(); i++) {
+			if (lbVars.isItemSelected(i))
+				variables.add(lbVars.getItemText(i));
+		}
+
+		// TODO: validate data before sending them to presenter
+
+		// Send to CHARMe Node
+		presenter
+				.onOkClicked(type, motivation, tags, comment, wktText,
+						timeFormat, valStart, valStop, depthStart, depthStop,
+						variables);
+
+	}
+
+	private void onCancelButtonClicked() {
+		presenter.onCancelClicked();
 	}
 
 }
