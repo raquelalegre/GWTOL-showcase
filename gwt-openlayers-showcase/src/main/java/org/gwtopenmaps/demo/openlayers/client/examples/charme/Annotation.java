@@ -100,6 +100,15 @@ public class Annotation {
 	public SubsetSelector getSubsetSelector() {
 		return this.ss;
 	}
+
+	@Override
+	public String toString() {
+		return "Annotation [body=" + body + ", target=" + target
+				+ ", motivation=" + motivation + ", type=" + type
+				+ ", content=" + content + ", sr=" + sr + ", ss=" + ss + "]";
+	}
+	
+
 	
 	
 }

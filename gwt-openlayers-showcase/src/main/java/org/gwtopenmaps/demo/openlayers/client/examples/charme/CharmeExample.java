@@ -97,14 +97,9 @@ public class CharmeExample extends AbstractExample {
 
         // Get coordinated from user click and display new annotation pop up
         map.addMapClickListener(new MapClickListener() {
-        	private NewAnnotationPopup naPopup;
 
 			public void onClick(MapClickListener.MapClickEvent mapClickEvent) {
-        	    LonLat lonLat = mapClickEvent.getLonLat();
-        	    lonLat.transform(map.getProjection(), DEFAULT_PROJECTION.getProjectionCode()); //transform lonlat to more readable format
-        	    
-                
-                naPopup = new NewAnnotationPopup(lonLat);
+				openNewAnnotationPopup(map, mapClickEvent);
         	}
         });
 
@@ -117,6 +112,17 @@ public class CharmeExample extends AbstractExample {
 
     }
 
+	private void openNewAnnotationPopup(final Map map,
+			MapClickListener.MapClickEvent mapClickEvent) {
+
+	    LonLat lonLat = mapClickEvent.getLonLat();
+	    lonLat.transform(map.getProjection(), DEFAULT_PROJECTION.getProjectionCode()); //transform lonlat to more readable format
+	    
+        // Create CHARMe pop up
+	    final NewAnnotationView newAnnotationPopupView = new NewAnnotationViewImpl();
+        new NewAnnotationPresenterImpl(newAnnotationPopupView, lonLat);
+	}
+	
     @Override
     public String getSourceCodeURL() {
         return GWT.getModuleBaseURL() + "examples/charme/"
