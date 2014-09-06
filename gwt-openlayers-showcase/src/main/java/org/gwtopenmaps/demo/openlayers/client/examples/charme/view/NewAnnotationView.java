@@ -1,8 +1,11 @@
-package org.gwtopenmaps.demo.openlayers.client.examples.charme;
+package org.gwtopenmaps.demo.openlayers.client.examples.charme.view;
 
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenter;
 import org.gwtopenmaps.openlayers.client.LonLat;
 
-public interface NewAnnotationView {
+import com.google.gwt.user.client.ui.IsWidget;
+
+public interface NewAnnotationView extends IsWidget{
 
 	public void setPresenter(NewAnnotationPresenter presenter);
 
@@ -10,7 +13,6 @@ public interface NewAnnotationView {
 	//       public void initialiseView(LonLat lonlat, List<int> depth, ...);
 	public void initialiseView(LonLat lonlat);
 
-	public void close();
 	
 	
 }

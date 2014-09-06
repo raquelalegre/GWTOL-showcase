@@ -19,8 +19,13 @@ package org.gwtopenmaps.demo.openlayers.client.examples.charme;
 
 import javax.inject.Inject;
 
+import org.gwtopenmaps.demo.openlayers.client.DialogBoxWithCloseButton;
 import org.gwtopenmaps.demo.openlayers.client.basic.AbstractExample;
 import org.gwtopenmaps.demo.openlayers.client.components.store.ShowcaseExampleStore;
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenter;
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenterImpl;
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.view.NewAnnotationView;
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.view.NewAnnotationViewImpl;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
@@ -36,8 +41,8 @@ import org.gwtopenmaps.openlayers.client.layer.WMSOptions;
 import org.gwtopenmaps.openlayers.client.layer.WMSParams;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 
 /**
@@ -112,15 +117,18 @@ public class CharmeExample extends AbstractExample {
 
     }
 
-	private void openNewAnnotationPopup(final Map map,
-			MapClickListener.MapClickEvent mapClickEvent) {
+	private void openNewAnnotationPopup(final Map map, MapClickListener.MapClickEvent mapClickEvent) {
 
 	    LonLat lonLat = mapClickEvent.getLonLat();
 	    lonLat.transform(map.getProjection(), DEFAULT_PROJECTION.getProjectionCode()); //transform lonlat to more readable format
 	    
         // Create CHARMe pop up
+	    DialogBoxWithCloseButton dialogBox = new DialogBoxWithCloseButton(false);
+		dialogBox.setText("New Annotation");
+	    
 	    final NewAnnotationView newAnnotationPopupView = new NewAnnotationViewImpl();
-        new NewAnnotationPresenterImpl(newAnnotationPopupView, lonLat);
+		NewAnnotationPresenter nap = new NewAnnotationPresenterImpl(newAnnotationPopupView, lonLat);
+		nap.go(dialogBox);
 	}
 	
     @Override

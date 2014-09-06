@@ -9,7 +9,7 @@
  * 
  */
 
-package org.gwtopenmaps.demo.openlayers.client.examples.charme;
+package org.gwtopenmaps.demo.openlayers.client.examples.charme.model;
 
 public class SpecificResource {
 

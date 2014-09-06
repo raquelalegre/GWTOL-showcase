@@ -1,18 +1,33 @@
-package org.gwtopenmaps.demo.openlayers.client.examples.charme;
+package org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter;
 
 import java.util.List;
 
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.Annotation;
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.SpecificResource;
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.SubsetSelector;
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.view.NewAnnotationView;
 import org.gwtopenmaps.openlayers.client.LonLat;
+
+import com.google.gwt.user.client.ui.PopupPanel;
 
 public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 
 	private final NewAnnotationView view;
+	private PopupPanel popupPanel;
 
 	public NewAnnotationPresenterImpl(NewAnnotationView view, LonLat initialLonlat) {
 		this.view = view;
-		view.setPresenter(this);
 		view.initialiseView(initialLonlat);
+		view.setPresenter(this);
 	}
+	
+	@Override
+	public void go(PopupPanel popupPanel) {
+		this.popupPanel = popupPanel;
+		popupPanel.setWidget(view);
+		popupPanel.center();
+	}
+
 	
 	@Override
 	public void onOkClicked(String type, String motivation, String tags,
@@ -59,12 +74,13 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 //		String json = gson.toJson(annotation);
 //		System.out.println(json);
 
-		view.close();
+		popupPanel.hide();
 	}
 
 	@Override
 	public void onCancelClicked() {
-		view.close();
+		popupPanel.hide();
 	}
+
 
 }

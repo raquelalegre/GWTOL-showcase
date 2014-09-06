@@ -10,7 +10,7 @@
  *
  */
 
-package org.gwtopenmaps.demo.openlayers.client.examples.charme;
+package org.gwtopenmaps.demo.openlayers.client.examples.charme.model;
 
 import java.util.List;
 

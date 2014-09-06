@@ -1,9 +1,10 @@
-package org.gwtopenmaps.demo.openlayers.client.examples.charme;
+package org.gwtopenmaps.demo.openlayers.client.examples.charme.view;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.gwtopenmaps.demo.openlayers.client.DialogBoxWithCloseButton;
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenter;
 import org.gwtopenmaps.openlayers.client.LonLat;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -19,7 +20,8 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class NewAnnotationViewImpl implements NewAnnotationView, ClickHandler {
+public class NewAnnotationViewImpl extends VerticalPanel implements
+		NewAnnotationView, ClickHandler {
 
 	private NewAnnotationPresenter presenter;
 
@@ -32,7 +34,7 @@ public class NewAnnotationViewImpl implements NewAnnotationView, ClickHandler {
 	private TextArea taAnnot;
 	private TextBox tbBegin;
 	private TextBox tbEnd;
-	private DialogBoxWithCloseButton dialogBox;
+	// private DialogBoxWithCloseButton dialogBox;
 	private ListBox lbAnnotType;
 	private ListBox lbMotivation;
 	private TextBox tbTags;
@@ -200,24 +202,17 @@ public class NewAnnotationViewImpl implements NewAnnotationView, ClickHandler {
 		vpGeometry.add(lCoords);
 		vpGeometry.add(taGeometry);
 
-		final VerticalPanel vpPopup = new VerticalPanel();
-		vpPopup.setSize("600", "450");
-		vpPopup.add(vpAnnot);
-		vpPopup.add(vpGeometry);
-		vpPopup.add(hpPeriod);
-		vpPopup.add(vpDepth);
-		vpPopup.add(vpVars);
-		vpPopup.add(fpButtons);
-		vpPopup.setCellHorizontalAlignment(fpButtons,
+		this.setSize("600", "450");
+		this.add(vpAnnot);
+		this.add(vpGeometry);
+		this.add(hpPeriod);
+		this.add(vpDepth);
+		this.add(vpVars);
+		this.add(fpButtons);
+		this.setCellHorizontalAlignment(fpButtons,
 				HasHorizontalAlignment.ALIGN_CENTER);
-		vpPopup.setCellVerticalAlignment(fpButtons,
+		this.setCellVerticalAlignment(fpButtons,
 				HasVerticalAlignment.ALIGN_BOTTOM);
-
-		dialogBox = new DialogBoxWithCloseButton(false);
-		dialogBox.setWidget(vpPopup);
-		dialogBox.setText("New Annotation");
-		dialogBox.center();
-		
 
 		// Button handlers
 		okButton.addClickHandler(this);
@@ -231,7 +226,8 @@ public class NewAnnotationViewImpl implements NewAnnotationView, ClickHandler {
 
 	@Override
 	public void initialiseView(LonLat lonlat) {
-		// TODO: create hierarchy of objects (point, line, polygon), each one with a method to create the appropriate string
+		// TODO: create hierarchy of objects (point, line, polygon), each one
+		// with a method to create the appropriate string
 		taGeometry.setText("POINT(" + lonlat.lon() + " " + lonlat.lat() + ")");
 	}
 
@@ -277,8 +273,8 @@ public class NewAnnotationViewImpl implements NewAnnotationView, ClickHandler {
 				variables.add(lbVars.getItemText(i));
 		}
 
-		// TODO: validate data before sending them to presenter 
-		
+		// TODO: validate data before sending them to presenter
+
 		// Send to CHARMe Node
 		presenter
 				.onOkClicked(type, motivation, tags, comment, wktText,
@@ -289,11 +285,6 @@ public class NewAnnotationViewImpl implements NewAnnotationView, ClickHandler {
 
 	private void onCancelButtonClicked() {
 		presenter.onCancelClicked();
-	}
-
-	@Override
-	public void close() {
-		dialogBox.hide();
 	}
 
 }
