@@ -2,12 +2,14 @@ package org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter;
 
 import java.util.List;
 
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld.JSONLDAnnotation;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.Annotation;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.SpecificResource;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.SubsetSelector;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.view.NewAnnotationView;
 import org.gwtopenmaps.openlayers.client.LonLat;
 
+import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 
@@ -82,7 +84,10 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 
 		final Annotation annotation = new Annotation(body, target, type, motivation, comment, sr, ss);
 
-		System.out.println("Annotation created: " + annotation.toJson());
+		JSONLDAnnotation jsonAnnotation = annotation.toJson();
+		System.out.println("Annotation created: " + jsonAnnotation);
+		System.out.println("Body retrieved from json annotation: " + jsonAnnotation.getBodyStr());
+		System.out.println("GEometry retrieved from json annotation: " + jsonAnnotation.getSubsetSelector().getHasGeometryStr());
 		
 		// Serialise (Java Object -> JSON) using GSON
 //		Gson gson = new Gson();

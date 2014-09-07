@@ -3,7 +3,6 @@ package org.gwtopenmaps.demo.openlayers.client.examples.charme.model;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld.JSONLDAnnotation;
 
 import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.json.client.JSONValue;
 
 /**
  * 
@@ -64,15 +63,15 @@ public class Annotation {
 	 *
 	 * @param json A JSON-LD Array object received from the CHARMe Node
 	 */
-	public Annotation(JSONValue json) {
+	public Annotation(JSONLDAnnotation jsonAnnotation) {
 		// TODO parse json
-		this.body = null;
+		this.body = jsonAnnotation.getBodyStr();
 		this.target = null;
 		this.motivation = null;
 		this.type = null;
 		this.comment = null;
 		this.sr = null;
-		this.ss = null;
+		this.ss = new SubsetSelector(jsonAnnotation.getSubsetSelector());
 		
 		
 		//Gets a JSONValue that is a JSONArray formed by JSONObjects. 
@@ -173,7 +172,7 @@ public class Annotation {
 	 *
 	 * @return the JSON-LD Array 
 	 */
-	public JSONValue toJson() {
+	public JSONLDAnnotation toJson() {
 		return new JSONLDAnnotation(this);
 	}
 
