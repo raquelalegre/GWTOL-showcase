@@ -20,11 +20,16 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * The Class NewAnnotationViewImpl.
+ * 
+ * @author: raquel
+ */
 public class NewAnnotationViewImpl extends VerticalPanel implements
 		NewAnnotationView, ClickHandler {
 
+	
 	private NewAnnotationPresenter presenter;
-
 	private TextArea taGeometry;
 	private Button okButton;
 	private Button cancelButton;
@@ -34,7 +39,6 @@ public class NewAnnotationViewImpl extends VerticalPanel implements
 	private TextArea taAnnot;
 	private TextBox tbBegin;
 	private TextBox tbEnd;
-	// private DialogBoxWithCloseButton dialogBox;
 	private ListBox lbAnnotType;
 	private ListBox lbMotivation;
 	private TextBox tbTags;
@@ -42,6 +46,9 @@ public class NewAnnotationViewImpl extends VerticalPanel implements
 
 	// constructor will eventually need geo boundaries, time boundaries, depth
 	// boundaries and current variable name
+	/**
+	 * Instantiates a new new annotation view impl.
+	 */
 	public NewAnnotationViewImpl() {
 		// Prepare elements that will form part of the pop up panel
 
@@ -219,18 +226,27 @@ public class NewAnnotationViewImpl extends VerticalPanel implements
 		cancelButton.addClickHandler(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.gwtopenmaps.demo.openlayers.client.examples.charme.view.NewAnnotationView#setPresenter(org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenter)
+	 */
 	@Override
 	public void setPresenter(NewAnnotationPresenter presenter) {
 		this.presenter = presenter;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.gwtopenmaps.demo.openlayers.client.examples.charme.view.NewAnnotationView#initialiseView(org.gwtopenmaps.openlayers.client.LonLat)
+	 */
 	@Override
 	public void initialiseView(LonLat lonlat) {
 		// TODO: create hierarchy of objects (point, line, polygon), each one
 		// with a method to create the appropriate string
-		taGeometry.setText("POINT(" + lonlat.lon() + " " + lonlat.lat() + ")");
+		taGeometry.setText("POINT(" + lonlat.lon() + " " + lonlat.lat() + ");<http://www.opengis.net/def/crs/EPSG/0/4326>");
 	}
 
+	/* (non-Javadoc)
+	 * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
+	 */
 	@Override
 	public void onClick(ClickEvent event) {
 		if (event.getSource() == okButton) {
@@ -240,6 +256,9 @@ public class NewAnnotationViewImpl extends VerticalPanel implements
 		}
 	}
 
+	/**
+	 * On ok button clicked.
+	 */
 	private void onOkButtonClicked() {
 		// Check we have the necessary inputs from user
 		// mandatory: user comment
@@ -283,6 +302,9 @@ public class NewAnnotationViewImpl extends VerticalPanel implements
 
 	}
 
+	/**
+	 * On cancel button clicked.
+	 */
 	private void onCancelButtonClicked() {
 		presenter.onCancelClicked();
 	}

@@ -1,0 +1,46 @@
+@prefix charme:  <http://www.charme.org.uk/def/> .
+@prefix oa: <http://www.w3.org/ns/oa#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix geo: <http://www.geonames.org/ontology> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix strdf: <http://strdf.di.uoa.gr/ontology#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix chnode: <http://localhost> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix geosparql: <http://www.opengis.net/ont/geosparql#> .
+
+<chnode:annoID> a oa:Annotation ;
+    oa:annotatedAt "2014-05-12T11:30:00Z" ;
+    oa:annotatedBy <http://pk904866> ;
+    oa:hasBody <chnode:bodyID> ;
+    oa:hasTarget <chnode:datasetSubsetID> ;
+    oa:motivatedBy oa:linking ;
+    oa:serializedAt "2013-12-28T12:00:00Z" ;
+    oa:serializedBy <chnode:agentID> .
+
+<chnode:agentID> a prov:SoftwareAgent ;
+    foaf:name "CHARMe FGC Tool v0.1" .
+
+<http://pk904866> a foaf:Person ;
+    foaf:mbox <mailto:r.alegre@reading.ac.uk> ;
+    foaf:name "Raquel Alegre" .
+
+<chnode:bodyID> a charme:user_comment ;
+    charme:hasContent "There is sampling station here"^^rdf:text .
+
+<chnode:datasetSubsetID> a oa:SpecificResource ;
+  oa:hasSource  <http://oceancolor.gsfc.nasa.gov/cgi/l3/A20140912014120.L3m_MO_CHL_chlor_a_9km.png> ;
+  oa:hasSelector <chnode:subsetSelectorID> .
+
+<http://oceancolor.gsfc.nasa.gov/cgi/l3/A20140912014120.L3m_MO_CHL_chlor_a_9km.png> a charme:dataset .
+
+<chnode:subsetSelectorID> a charme:SubsetSelector ;
+  charme:hasVariables "chlor_a", "sst" ;
+  strdf:hasGeometry "POINT(-50 44);<http://www.opengis.net/def/crs/EPSG/0/4326>"^^strdf:WKT ;
+  charme:hasTemporalExtent <chnode:temporalExtentID> .
+  
+<chnode:temporalExtentID>
+    charme:hasCalendar "Gregorian" ;
+    charme:hasStart "2008-01-01T00:00:00Z"^^xsd:dateTime ;
+    charme:hasStop "2009-01-01T00:00:00Z"^^xsd:dateTime .
