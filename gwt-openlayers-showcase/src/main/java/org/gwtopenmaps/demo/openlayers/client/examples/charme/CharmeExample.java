@@ -26,23 +26,30 @@ import org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnot
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenterImpl;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.view.NewAnnotationView;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.view.NewAnnotationViewImpl;
+import org.gwtopenmaps.openlayers.client.Icon;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
+import org.gwtopenmaps.openlayers.client.Marker;
 import org.gwtopenmaps.openlayers.client.Projection;
+import org.gwtopenmaps.openlayers.client.Size;
 import org.gwtopenmaps.openlayers.client.control.LayerSwitcher;
 import org.gwtopenmaps.openlayers.client.control.OverviewMap;
 import org.gwtopenmaps.openlayers.client.control.ScaleLine;
+import org.gwtopenmaps.openlayers.client.event.EventType;
 import org.gwtopenmaps.openlayers.client.event.MapClickListener;
+import org.gwtopenmaps.openlayers.client.event.MarkerBrowserEventListener;
+import org.gwtopenmaps.openlayers.client.layer.Markers;
 import org.gwtopenmaps.openlayers.client.layer.TransitionEffect;
 import org.gwtopenmaps.openlayers.client.layer.WMS;
 import org.gwtopenmaps.openlayers.client.layer.WMSOptions;
 import org.gwtopenmaps.openlayers.client.layer.WMSParams;
+import org.gwtopenmaps.openlayers.client.popup.FramedCloud;
+import org.gwtopenmaps.openlayers.client.popup.Popup;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.PopupPanel;
 
 
 /**
@@ -53,6 +60,8 @@ import com.google.gwt.user.client.ui.PopupPanel;
 
 public class CharmeExample extends AbstractExample {
 
+    private Popup popup;
+    
     private static final Projection DEFAULT_PROJECTION = new Projection(
             "EPSG:4326");
 
@@ -60,7 +69,7 @@ public class CharmeExample extends AbstractExample {
     public CharmeExample(ShowcaseExampleStore store) {
         super("Charme",
               "Demonstrates the use of the CHARMe Maps tool "
-                + "to insert a new annotation.",
+                + "to insert a new annotation and visualize existing ones for the displayed dataset and boundaries.",
               new String[]{"cancel", "vector", "feature", "drawing", "sketch"},
               store);
     }
@@ -69,7 +78,7 @@ public class CharmeExample extends AbstractExample {
     public void buildPanel() {
         // create controls
         final HTML htmlInfo = new HTML(
-                "<p>This example shows how you can create a new annotation for fine-grained commentary data.</p>");
+                "<p>This example shows how you can create a new annotation for fine-grained commentary data and visualizes the ones existing for this dataset subset.</p>");
 
         // create some MapOptions
         MapOptions defaultMapOptions = new MapOptions();
@@ -98,7 +107,7 @@ public class CharmeExample extends AbstractExample {
         map.addControl(new OverviewMap()); // + sign in the lowerright to display the overviewmap
         map.addControl(new ScaleLine()); // Display the scaleline
         // Center and zoom to a location
-        map.setCenter(new LonLat(0, 0), 5);
+        map.setCenter(new LonLat(0, 0), 2);
 
         // Get coordinated from user click and display new annotation pop up
         map.addMapClickListener(new MapClickListener() {
@@ -107,13 +116,46 @@ public class CharmeExample extends AbstractExample {
 				openNewAnnotationPopup(map, mapClickEvent);
         	}
         });
-
+        
+        //Draw interactive annotation markers in the map    
+        LonLat p = new LonLat(14.450000, 50.018120);
+        p.transform(DEFAULT_PROJECTION.getProjectionCode(), map.getProjection());
+        
+        Markers layer = new Markers("markers");
+        map.addLayer(layer);
+ 
+        String iconImageURL = "http://icongal.com/gallery/image/460109/chartreuse_base_con_pixe_marker_map_outside_biswajit.png";
+        Icon icon = new Icon(iconImageURL, new Size(32, 32));
+        final Marker marker = new Marker(p, icon);
+        layer.addMarker(marker);
+ 
+        marker.addBrowserEventListener(EventType.MOUSE_OVER, new MarkerBrowserEventListener() {
+ 
+            public void onBrowserEvent(MarkerBrowserEventListener.MarkerBrowserEvent markerBrowserEvent) {
+                popup = new FramedCloud("id1", marker.getLonLat(), null, "<,h1>Some popup text<,/H1><,BR/>And more text", null, false);
+                popup.setPanMapIfOutOfView(true); //this set the popup in a strategic way, and pans the map if needed.
+                popup.setAutoSize(true);
+                map.addPopup(popup);
+            }
+ 
+        });
+ 
+        marker.addBrowserEventListener(EventType.MOUSE_OUT, new MarkerBrowserEventListener() {
+ 
+            public void onBrowserEvent(MarkerBrowserEventListener.MarkerBrowserEvent markerBrowserEvent) {
+                if(popup != null) {
+                    map.removePopup(popup);
+                    popup.destroy();
+                }
+            }
+ 
+        });
 
         //add things to main panel
         contentPanel.add(htmlInfo);
         contentPanel.add(mapWidget);
         initWidget(contentPanel);
-        mapWidget.getElement().getFirstChildElement().getStyle().setZIndex(0); // force the map to fall behind popups
+        mapWidget.getElement().getFirstChildElement().getStyle().setZIndex(0); // force the map to fall behind pop ups
 
     }
 
