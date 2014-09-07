@@ -3,7 +3,6 @@ package org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
-import com.google.gwt.json.client.JSONValue;
 
 /**
  * The Class JSONLDElement describes JSON-LD Elements necessary to pass the Annotation information to the CHARMe Node.
@@ -23,19 +22,33 @@ import com.google.gwt.json.client.JSONValue;
  *  @author raquel
  *  
  */
-public class JSONLDElement extends JSONObject {
+public class JSONLDElement extends JSONLDValue {
+	
 	
 	private static final String ID_KEY = "@id";
 	private static final String TYPE_KEY = "@type";
 	private static final String VALUE_KEY = "@value";
 
+	private final JSONObject wrapped;
+	
+	public JSONLDElement(JSONObject wrapped) {
+		this.wrapped = wrapped;
+	}
+	
 	/**
 	 * Sets the "@id" as a key-value/predicate-object pair in the JSON-LD Element.
 	 *
 	 * @param id String representing the unique "@id" of the JSON-LD Element.
 	 */
 	public void setId(String id) {
-		super.put(ID_KEY, new JSONString(id));
+		wrapped.put(ID_KEY, new JSONString(id));
+	}
+	
+	public String getId() {
+		if (!wrapped.containsKey(ID_KEY)) {
+			return null;
+		}
+		return wrapped.get(ID_KEY).toString();
 	}
 	
 	/**
@@ -44,7 +57,14 @@ public class JSONLDElement extends JSONObject {
 	 * @param value String representing the object of the "@value" predicate.
 	 */
 	public void setValue(String value) {
-		super.put(VALUE_KEY, new JSONString(value));
+		wrapped.put(VALUE_KEY, new JSONString(value));
+	}
+	
+	public String getValue() {
+		if (!wrapped.containsKey(VALUE_KEY)) {
+			return null;
+		}
+		return wrapped.get(VALUE_KEY).toString();
 	}
 
 	/**
@@ -55,8 +75,10 @@ public class JSONLDElement extends JSONObject {
 	public void setTypeAsArray(String type) {
 		JSONArray array = new JSONArray();
 		array.set(0, new JSONString(type));
-		super.put(TYPE_KEY, array);
+		wrapped.put(TYPE_KEY, array);
 	}
+	
+
 	
 	/**
 	 * Sets the "@type" as a key-value/predicate-object pair in the JSON-LD Element.
@@ -64,10 +86,13 @@ public class JSONLDElement extends JSONObject {
 	 * @param type String representing the object of the "@type" predicate.
 	 */
 	public void setTypeAsString(String type) {
-		super.put(TYPE_KEY, new JSONString(type));
+		wrapped.put(TYPE_KEY, new JSONString(type));
 	}
 	
-
+	public JSONObject getWrappedJson() {
+		return wrapped;
+	}
+	
 	/**
 	 * Adds a key-value pair, being the value an array of JSON-LD objects. 
 	 *
@@ -75,20 +100,13 @@ public class JSONLDElement extends JSONObject {
 	 * @param elementArray An adhoc JSONArray element with a set of key-value/precdicate-object pairs.
 	 */
 	public void add(String key, JSONLDElementArray elementArray) {
-		super.put(key, elementArray);
+		wrapped.put(key, elementArray.getWrappedJson());
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.google.gwt.json.client.JSONObject#put(java.lang.String, com.google.gwt.json.client.JSONValue)
-	 * Deprecated to use the put of the super class instead.
-	 */
-	@Override
-	@Deprecated
-	public JSONValue put(String key, JSONValue jsonValue) {
-		throw new IllegalAccessError();
+
+	public JSONLDElementArray get(String key) {
+		return new JSONLDElementArray((JSONArray)wrapped.get(key));
 	}
 	
 
-	
 
 }
