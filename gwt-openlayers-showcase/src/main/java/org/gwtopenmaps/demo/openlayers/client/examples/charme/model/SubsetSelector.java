@@ -3,6 +3,7 @@ package org.gwtopenmaps.demo.openlayers.client.examples.charme.model;
 import java.util.List;
 
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld.JSONLDSubsetSelector;
+import org.gwtopenmaps.openlayers.client.LonLat;
 
 /**
  * The Class SubsetSelector contains the information relative to the subset boundaries (time extent, depth interval and geographic boundaries)
@@ -121,6 +122,20 @@ public class SubsetSelector {
 		return this.geometry;
 	}
 	
+	/**
+	 * TODO: this is very dirty...
+	 * @return
+	 */
+	public LonLat getLonLatFromGeometry() {
+		//"POINT(-50 44)
+		
+		String lonStr = geometry.substring(geometry.indexOf("(") + 1, geometry.indexOf(" "));
+		double lon = Double.parseDouble(lonStr);
+		String latStr = geometry.substring(geometry.indexOf(" ") + 1, geometry.indexOf(")"));
+		double lat = Double.parseDouble(latStr);
+		LonLat ll = new LonLat(lon, lat);
+		return ll;
+	}
 	/**
 	 * Gets the validity start the annotation applies to.
 	 *

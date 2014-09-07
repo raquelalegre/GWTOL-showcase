@@ -27,6 +27,8 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 	/** The popup panel. */
 	private PopupPanel popupPanel;
 
+	private NewAnnotationPresenterListener listener;
+
 	/**
 	 * Instantiates a new new annotation presenter impl.
 	 *
@@ -83,19 +85,9 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 		String target = null; // URI of the subset selector
 
 		final Annotation annotation = new Annotation(body, target, type, motivation, comment, sr, ss);
-
-		JSONLDAnnotation jsonAnnotation = annotation.toJson();
-		System.out.println("Annotation created: " + jsonAnnotation);
-		System.out.println("Body retrieved from json annotation: " + jsonAnnotation.getBodyStr());
-		System.out.println("GEometry retrieved from json annotation: " + jsonAnnotation.getSubsetSelector().getHasGeometryStr());
 		
-		// Serialise (Java Object --> JSON) using GSON
-//		Gson gson = new Gson();
-//		gson.toJson(annotation);
-//		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//		String json = gson.toJson(annotation);
-//		System.out.println(json);
-
+		listener.onNewAnnotationCrated(annotation);
+		
 		popupPanel.hide();
 	}
 
@@ -105,6 +97,11 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 	@Override
 	public void onCancelClicked() {
 		popupPanel.hide();
+	}
+
+	@Override
+	public void setListener(NewAnnotationPresenterListener listener) {
+		this.listener = listener;
 	}
 
 

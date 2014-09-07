@@ -17,12 +17,18 @@
 
 package org.gwtopenmaps.demo.openlayers.client.examples.charme;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.gwtopenmaps.demo.openlayers.client.DialogBoxWithCloseButton;
 import org.gwtopenmaps.demo.openlayers.client.basic.AbstractExample;
 import org.gwtopenmaps.demo.openlayers.client.components.store.ShowcaseExampleStore;
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld.JSONLDAnnotation;
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.Annotation;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenter;
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenter.NewAnnotationPresenterListener;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenterImpl;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.view.NewAnnotationView;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.view.NewAnnotationViewImpl;
@@ -58,12 +64,16 @@ import com.google.gwt.user.client.ui.HTML;
  *
  */
 
-public class CharmeExample extends AbstractExample {
+public class CharmeExample extends AbstractExample implements NewAnnotationPresenterListener {
 
     private Popup popup;
     
+    private List<Annotation> annotations = new LinkedList<Annotation>();
+    
     private static final Projection DEFAULT_PROJECTION = new Projection(
             "EPSG:4326");
+
+	private Map map;
 
     @Inject
     public CharmeExample(ShowcaseExampleStore store) {
@@ -98,8 +108,7 @@ public class CharmeExample extends AbstractExample {
         String wmsUrl = "http://vmap0.tiles.osgeo.org/wms/vmap0";
         WMS wmsLayer = new WMS("Basic WMS", wmsUrl, wmsParams, wmsLayerParams);
 
-        // Add the WMS to the map
-        final Map map = mapWidget.getMap();
+        map = mapWidget.getMap();
         map.addLayer(wmsLayer);
 
         // Lets add some default controls to the map
@@ -117,8 +126,25 @@ public class CharmeExample extends AbstractExample {
         	}
         });
         
-        //Draw interactive annotation markers in the map    
-        LonLat p = new LonLat(14.450000, 50.018120);
+        addAnnotationsMarkersToUI();
+
+        //add things to main panel
+        contentPanel.add(htmlInfo);
+        contentPanel.add(mapWidget);
+        initWidget(contentPanel);
+        mapWidget.getElement().getFirstChildElement().getStyle().setZIndex(0); // force the map to fall behind pop ups
+
+    }
+
+    private void addAnnotationsMarkersToUI() {
+    	for (Annotation annotation : annotations) {
+    		addAnnotationMarkerToUI(annotation);
+    	}
+    }
+    
+	private void addAnnotationMarkerToUI(final Annotation annotation) {
+		//Draw interactive annotation markers in the map    
+        LonLat p = annotation.getSubsetSelector().getLonLatFromGeometry();
         p.transform(DEFAULT_PROJECTION.getProjectionCode(), map.getProjection());
         
         Markers layer = new Markers("markers");
@@ -132,7 +158,7 @@ public class CharmeExample extends AbstractExample {
         marker.addBrowserEventListener(EventType.MOUSE_OVER, new MarkerBrowserEventListener() {
  
             public void onBrowserEvent(MarkerBrowserEventListener.MarkerBrowserEvent markerBrowserEvent) {
-                popup = new FramedCloud("id1", marker.getLonLat(), null, "<,h1>Some popup text<,/H1><,BR/>And more text", null, false);
+                popup = new FramedCloud("id1", marker.getLonLat(), null, annotation.getContent(), null, false);
                 popup.setPanMapIfOutOfView(true); //this set the popup in a strategic way, and pans the map if needed.
                 popup.setAutoSize(true);
                 map.addPopup(popup);
@@ -150,17 +176,9 @@ public class CharmeExample extends AbstractExample {
             }
  
         });
-
-        //add things to main panel
-        contentPanel.add(htmlInfo);
-        contentPanel.add(mapWidget);
-        initWidget(contentPanel);
-        mapWidget.getElement().getFirstChildElement().getStyle().setZIndex(0); // force the map to fall behind pop ups
-
-    }
+	}
 
 	private void openNewAnnotationPopup(final Map map, MapClickListener.MapClickEvent mapClickEvent) {
-
 	    LonLat lonLat = mapClickEvent.getLonLat();
 	    lonLat.transform(map.getProjection(), DEFAULT_PROJECTION.getProjectionCode()); //transform lonlat to more readable format
 	    
@@ -170,7 +188,9 @@ public class CharmeExample extends AbstractExample {
 	    
 	    final NewAnnotationView newAnnotationPopupView = new NewAnnotationViewImpl();
 		NewAnnotationPresenter nap = new NewAnnotationPresenterImpl(newAnnotationPopupView, lonLat);
+		nap.setListener(this);
 		nap.go(dialogBox);
+		
 	}
 	
     @Override
@@ -178,6 +198,17 @@ public class CharmeExample extends AbstractExample {
         return GWT.getModuleBaseURL() + "examples/charme/"
                 + "CharmeExample.txt";
     }
+
+	@Override
+	public void onNewAnnotationCrated(Annotation annotation) {
+		JSONLDAnnotation jsonAnnotation = annotation.toJson();
+		System.out.println("Annotation created: " + jsonAnnotation);
+		System.out.println("Body retrieved from json annotation: " + jsonAnnotation.getBodyStr());
+		System.out.println("GEometry retrieved from json annotation: " + jsonAnnotation.getSubsetSelector().getHasGeometryStr());
+
+		this.annotations.add(annotation);
+		addAnnotationsMarkersToUI();
+	}
 }
 
 
