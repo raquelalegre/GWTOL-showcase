@@ -89,7 +89,7 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 		System.out.println("Body retrieved from json annotation: " + jsonAnnotation.getBodyStr());
 		System.out.println("GEometry retrieved from json annotation: " + jsonAnnotation.getSubsetSelector().getHasGeometryStr());
 		
-		// Serialise (Java Object -> JSON) using GSON
+		// Serialise (Java Object --> JSON) using GSON
 //		Gson gson = new Gson();
 //		gson.toJson(annotation);
 //		Gson gson = new GsonBuilder().setPrettyPrinting().create();
