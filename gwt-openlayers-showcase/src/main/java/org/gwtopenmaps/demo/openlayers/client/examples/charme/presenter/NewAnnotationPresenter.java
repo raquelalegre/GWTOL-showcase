@@ -2,6 +2,8 @@ package org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter;
 
 import java.util.List;
 
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.Annotation;
+
 /**
  * The Interface NewAnnotationPresenter.
  * 
@@ -30,5 +32,20 @@ public interface NewAnnotationPresenter extends PresenterPopup {
 	 * On cancel clicked.
 	 */
 	public void onCancelClicked();
+	
+	
+	/**
+	 * Method used by the listener of this UI to be subscribed to the events triggered from this UI.
+	 * @param listener
+	 */
+	public void setListener(NewAnnotationPresenterListener listener);
+	
+	/**
+	 * Interface to be implemented by objects interested in knowing about events happened in the NewAnnotation UI
+	 * @author raquel
+	 */
+	public static interface NewAnnotationPresenterListener {
+		public void onNewAnnotationCrated(Annotation annotation);
+	}
 
 }
