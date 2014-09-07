@@ -10,17 +10,36 @@ import org.gwtopenmaps.openlayers.client.LonLat;
 
 import com.google.gwt.user.client.ui.PopupPanel;
 
+
+/**
+ * The Class NewAnnotationPresenterImpl.
+ *
+ *
+ * @author: raquel
+ */
 public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 
+	/** The view. */
 	private final NewAnnotationView view;
+	
+	/** The popup panel. */
 	private PopupPanel popupPanel;
 
+	/**
+	 * Instantiates a new new annotation presenter impl.
+	 *
+	 * @param view the view
+	 * @param initialLonlat the initial lonlat
+	 */
 	public NewAnnotationPresenterImpl(NewAnnotationView view, LonLat initialLonlat) {
 		this.view = view;
 		view.initialiseView(initialLonlat);
 		view.setPresenter(this);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.PresenterPopup#go(com.google.gwt.user.client.ui.PopupPanel)
+	 */
 	@Override
 	public void go(PopupPanel popupPanel) {
 		this.popupPanel = popupPanel;
@@ -29,6 +48,9 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 	}
 
 	
+	/* (non-Javadoc)
+	 * @see org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenter#onOkClicked(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.util.List)
+	 */
 	@Override
 	public void onOkClicked(String type, String motivation, String tags,
 			String comment, String wktText, String timeFormat, String valStart,
@@ -54,18 +76,13 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 		sr.setSource(source);
 
 		// /
-		Annotation annotation = new Annotation();
+		
 		String body = null; // URI of the subset selector?
-		annotation.setBody(body);
 		String target = null; // URI of the subset selector
-		annotation.setTarget(target);
-		annotation.setType(type);
-		annotation.setMotivation(motivation);
-		annotation.setContent(comment);
-		annotation.setSpecificResource(sr);
-		annotation.setSubsetSelector(ss);
 
-		System.out.println("Annotation created: " + annotation.toString());
+		final Annotation annotation = new Annotation(body, target, type, motivation, comment, sr, ss);
+
+		System.out.println("Annotation created: " + annotation.toJson());
 		
 		// Serialise (Java Object -> JSON) using GSON
 //		Gson gson = new Gson();
@@ -77,6 +94,9 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 		popupPanel.hide();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenter#onCancelClicked()
+	 */
 	@Override
 	public void onCancelClicked() {
 		popupPanel.hide();

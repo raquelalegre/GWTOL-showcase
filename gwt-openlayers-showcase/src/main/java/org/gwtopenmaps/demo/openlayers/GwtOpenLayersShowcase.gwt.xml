@@ -31,4 +31,8 @@
     <entry-point class='org.gwtopenmaps.demo.openlayers.client.GwtOpenLayersShowcase'/>
 
     <!-- third party scripts are referenced in GwtOpenLayersShowcase.html -->
+    
+    <!--  Needed by the JSON translator classes -->
+    <inherits name='com.google.gwt.json.JSON'/>
+    
 </module>
