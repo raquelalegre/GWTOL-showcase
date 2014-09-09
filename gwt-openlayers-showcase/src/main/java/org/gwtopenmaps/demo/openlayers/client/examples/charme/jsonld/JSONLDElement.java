@@ -82,11 +82,11 @@ public class JSONLDElement extends JSONObject {
 	 * @see com.google.gwt.json.client.JSONObject#put(java.lang.String, com.google.gwt.json.client.JSONValue)
 	 * Deprecated to use the put of the super class instead.
 	 */
-	@Override
-	@Deprecated
-	public JSONValue put(String key, JSONValue jsonValue) {
-		throw new IllegalAccessError();
-	}
+	//@Override
+	//@Deprecated
+	//public JSONValue put(String key, JSONValue jsonValue) {
+	//	throw new IllegalAccessError();
+	//}
 	
 
 	
