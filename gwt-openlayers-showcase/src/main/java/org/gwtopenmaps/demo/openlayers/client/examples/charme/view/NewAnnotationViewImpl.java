@@ -22,6 +22,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * The Class NewAnnotationViewImpl.
+ * It's a vertical panel containing all the view elements for the user to insert information about a new annotation.
+ * TODO: Validation of input
+ * TODO: More modular view: each panel should be a separated object
+ * TODO: Read data from the Godiva2 tool when exporting this example
  * 
  * @author: raquel
  */
@@ -257,7 +261,7 @@ public class NewAnnotationViewImpl extends VerticalPanel implements
 	}
 
 	/**
-	 * On ok button clicked.
+	 * On ok button clicked, create JSON-LD file using user input information with the help of the presenter.
 	 */
 	private void onOkButtonClicked() {
 		// Check we have the necessary inputs from user
@@ -294,7 +298,7 @@ public class NewAnnotationViewImpl extends VerticalPanel implements
 
 		// TODO: validate data before sending them to presenter
 
-		// Send to CHARMe Node
+		//Presenter to do the logic, create an annotation object based on the implemented model, build the JSON-LD from the object and send it to the triplestore.
 		presenter
 				.onOkClicked(type, motivation, tags, comment, wktText,
 						timeFormat, valStart, valStop, depthStart, depthStop,
@@ -303,7 +307,7 @@ public class NewAnnotationViewImpl extends VerticalPanel implements
 	}
 
 	/**
-	 * On cancel button clicked.
+	 * On cancel button clicked, tell the presenter to do the logic (close the window and don't save changes)
 	 */
 	private void onCancelButtonClicked() {
 		presenter.onCancelClicked();

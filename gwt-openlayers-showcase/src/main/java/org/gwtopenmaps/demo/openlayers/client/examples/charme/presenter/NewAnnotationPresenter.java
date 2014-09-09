@@ -3,14 +3,15 @@ package org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter;
 import java.util.List;
 
 /**
- * The Interface NewAnnotationPresenter.
+ * The Interface NewAnnotationPresenter implemented by NewAnnotationPresenterImpl.
+ * Declares methods for what the presenter to do when the user clicks the view's OK or Cancel buttons.
  * 
  * @author: raquel
  */
 public interface NewAnnotationPresenter extends PresenterPopup {
 
 	/**
-	 * On ok clicked.
+	 * On OK button clicked, elaborate the annotation object, convert to JSON-LD and send to triplestore.
 	 *
 	 * @param type the type
 	 * @param motivation the motivation
@@ -27,7 +28,7 @@ public interface NewAnnotationPresenter extends PresenterPopup {
 	public void onOkClicked(String type, String motivation, String tags, String comment, String wktText, String timeFormat, String valStart, String valStop, String depthStart, String depthStop, List<String> variables);
 	
 	/**
-	 * On cancel clicked.
+	 * On Cancel button clicked, close window and discard user's input data.
 	 */
 	public void onCancelClicked();
 

@@ -20,36 +20,36 @@ public class SpecificResource {
 	private SubsetSelector selector;
 	
 	/**
-	 * Sets the source.
+	 * Sets the dataset source, which is the parent dataset the subset comes from. It should be a URI pointing to the dataset..
 	 *
-	 * @param source the new source
+	 * @param source the dataset source
 	 */
 	public void setSource(String source){
 		this.source = source;
 	}
 	
 	/**
-	 * Sets the selector.
+	 * Sets the subset selector object that contains all the information about the subset: geotemporal boundaries, target variables, etc.
 	 *
-	 * @param ss the new selector
+	 * @param ss the subset selector
 	 */
 	public void setSelector(SubsetSelector ss){
 		this.selector = ss;
 	}
 		
 	/**
-	 * Gets the source.
+	 * Gets the source, which is the parent dataset the subset comes from. It should be a URI pointing to the dataset.
 	 *
-	 * @return the source
+	 * @return the dataset source
 	 */
 	public String getSource(){
 		return this.source;
 	}
 	
 	/**
-	 * Gets the selector.
+	 * Gets the subset selector object that contains all the information about the subset: geotemporal boundaries, target variables, etc.
 	 *
-	 * @return the selector
+	 * @return the subset selector
 	 */
 	public SubsetSelector getSelector(){
 		return this.selector;

@@ -6,7 +6,8 @@ import org.gwtopenmaps.openlayers.client.LonLat;
 import com.google.gwt.user.client.ui.IsWidget;
 
 /**
- * The Interface NewAnnotationView.
+ * The Interface NewAnnotationView, implemented by NewAnnotationViewImpl.
+ * It sets the Presenter of the MVP pattern and declares the initialization of the pop up. 
  *
  *
  * @author: raquel
@@ -22,6 +23,7 @@ public interface NewAnnotationView extends IsWidget{
 
 	// TODO: Set the other elements coming from Godiva (vars, depth, time)
 	//       public void initialiseView(LonLat lonlat, List<int> depth, ...);
+
 	/**
 	 * Initialise view.
 	 *

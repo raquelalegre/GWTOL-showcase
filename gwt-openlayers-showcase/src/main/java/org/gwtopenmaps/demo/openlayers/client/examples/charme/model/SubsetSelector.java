@@ -46,7 +46,7 @@ public class SubsetSelector {
 	}
 	
 	/**
-	 * Sets the validity start the annotation applies to.
+	 * Sets the validity start of the time period the annotation applies to.
 	 *
 	 * @param validityStart the new validity start
 	 */
@@ -55,7 +55,7 @@ public class SubsetSelector {
 	}
 	
 	/**
-	 * Sets the validity stop the annotation applies to.
+	 * Sets the validity stop of the time period the annotation applies to.
 	 *
 	 * @param validityStop the new validity stop
 	 */
@@ -64,7 +64,7 @@ public class SubsetSelector {
 	}
 		
 	/**
-	 * Sets the time format the annotation applies to.
+	 * Sets the time format of the time period the annotation applies to.
 	 *
 	 * @param dateFormat the new time format
 	 */
@@ -73,7 +73,7 @@ public class SubsetSelector {
 	}
 
 	/**
-	 * Sets the depth start the annotation applies to.
+	 * Sets the depth start of the depth or elevation interval the annotation applies to.
 	 *
 	 * @param depthStart the new depth start
 	 */
@@ -82,7 +82,7 @@ public class SubsetSelector {
 	}
 	
 	/**
-	 * Sets the depth stop the annotation applies to.
+	 * Sets the depth stop of the depth or elevation interval the annotation applies to.
 	 *
 	 * @param depthStop the new depth stop
 	 */
@@ -92,7 +92,7 @@ public class SubsetSelector {
 	
 	
 	/**
-	 * Gets the variables the annotation applies to.
+	 * Gets the variables from the dataset the annotation applies to.
 	 *
 	 * @return the variables
 	 */
@@ -110,7 +110,7 @@ public class SubsetSelector {
 	}
 	
 	/**
-	 * Gets the validity start the annotation applies to.
+	 * Gets the validity start of the time period the annotation applies to.
 	 *
 	 * @return the validity start
 	 */
@@ -119,7 +119,7 @@ public class SubsetSelector {
 	}
 	
 	/**
-	 * Gets the validity stop the annotation applies to.
+	 * Gets the validity stop of the time period the annotation applies to.
 	 *
 	 * @return the validity stop
 	 */
@@ -128,7 +128,7 @@ public class SubsetSelector {
 	}
 	
 	/**
-	 * Gets the time format the annotation applies to.
+	 * Gets the time format of the time period the annotation applies to.
 	 *
 	 * @return the time format
 	 */
@@ -137,7 +137,7 @@ public class SubsetSelector {
 	}
 
 	/**
-	 * Gets the depth start the annotation applies to.
+	 * Gets the depth start of the depth or elevation interval the annotation applies to.
 	 *
 	 * @return the depth start
 	 */
@@ -146,7 +146,7 @@ public class SubsetSelector {
 	}
 	
 	/**
-	 * Gets the depth stop the annotation applies to.
+	 * Gets the depth stop of the depth or elevation interval the annotation applies to.
 	 *
 	 * @return the depth stop
 	 */

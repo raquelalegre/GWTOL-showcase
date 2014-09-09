@@ -12,23 +12,20 @@ import com.google.gwt.user.client.ui.PopupPanel;
 
 
 /**
- * The Class NewAnnotationPresenterImpl.
+ * The Class NewAnnotationPresenterImpl contains the logic behind the application and communicates the view and the model, keeping them independent and modular.
  *
  *
  * @author: raquel
  */
 public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 
-	/** The view. */
 	private final NewAnnotationView view;
-	
-	/** The popup panel. */
 	private PopupPanel popupPanel;
 
 	/**
-	 * Instantiates a new new annotation presenter impl.
+	 * Instantiates a new presenter object, initializing the view and declaring itself as presenter of the MVP pattern.
 	 *
-	 * @param view the view
+	 * @param view the view, including the popup and the markers showing the annotations
 	 * @param initialLonlat the initial lonlat
 	 */
 	public NewAnnotationPresenterImpl(NewAnnotationView view, LonLat initialLonlat) {
@@ -37,6 +34,11 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 		view.setPresenter(this);
 	}
 	
+	/**
+	 * Triggers the start of the MVP pattern.
+	 *
+	 * @param popupPanel the popup panel for the new annotation
+	 */
 	/* (non-Javadoc)
 	 * @see org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.PresenterPopup#go(com.google.gwt.user.client.ui.PopupPanel)
 	 */
@@ -47,7 +49,11 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 		popupPanel.center();
 	}
 
-	
+	/**
+	 * Defines how to proceed when the user clicks the OK button in the New Annotation pop up
+	 *
+	 * @param popupPanel the popup panel for the new annotation
+	 */
 	/* (non-Javadoc)
 	 * @see org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenter#onOkClicked(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.util.List)
 	 */
@@ -74,31 +80,31 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 		sr.setSelector(ss);
 		String source = null; // URI of the dataset
 		sr.setSource(source);
-
-		// /
 		
-		String body = null; // URI of the subset selector?
+		String body = null; // User comment
 		String target = null; // URI of the subset selector
 
+		//Create a CHARMe Annotation object containing the information the user has entered.
 		final Annotation annotation = new Annotation(body, target, type, motivation, comment, sr, ss);
 
+		//For debug purposes: check the annotation in JSON-LD looks as spected
 		System.out.println("Annotation created: " + annotation.toJson());
-		
-		// Serialise (Java Object -> JSON) using GSON
-//		Gson gson = new Gson();
-//		gson.toJson(annotation);
-//		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//		String json = gson.toJson(annotation);
-//		System.out.println(json);
 
+		//Close the panel when the annotation has been succesfully created.
 		popupPanel.hide();
 	}
 
+	/**
+	 * Defines how to proceed when the user clicks the Cancel button in the New Annotation pop up
+	 *
+	 * @param popupPanel the popup panel for the new annotation
+	 */
 	/* (non-Javadoc)
 	 * @see org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenter#onCancelClicked()
 	 */
 	@Override
 	public void onCancelClicked() {
+		//Just close the window
 		popupPanel.hide();
 	}
 

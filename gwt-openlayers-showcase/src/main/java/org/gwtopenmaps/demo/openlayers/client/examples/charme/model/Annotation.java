@@ -12,19 +12,19 @@ import com.google.gwt.json.client.JSONValue;
 
 /**
  * 
- * Represents a CHARMe Annotation created specifically for annotating subsets of data.
+ * Represents a CHARMe Annotation created specifically for annotating geotemporal (fine-grained) subsets of data.
  * TODO: Incorporate all other possible fields (citation, etc) when we have a clearly defined Annotation schema from the CHARMe Node
  * 
- * This class also includes the conversion from Annotation Object -> JSON-LD and viceversa.
- * TODO: Separate this JSON logic to somewhere else.
+ * This class also includes functionality for the conversion from Annotation Object -> JSON-LD and viceversa.
+ * TODO: Separate the JSON logic to somewhere else.
  * 
- * This is how an FG Annotation should look like in RDF-Turtle:
+ * This is how an fine-grained Annotation should look like in RDF-Turtle:
  * GWTOL-showcase/gwt-openlayers-showcase/annotation_sample/fgc_annot.ttl
  * 
  * This is the JSON-LD equivalent (from RDF translator: http://rdf-translator.appspot.com/):
  * GWTOL-showcase/gwt-openlayers-showcase/annotation_sample/fgc_annot.json
  *  
- * TODO: Work is still undergoing in the CHARMe Node side, and the following are not yet translated to CHARMe URIs, but will:
+ * TODO: Work is still undergoing in the CHARMe Triplestore/Node side, and the following are not yet translated to CHARMe URIs, but will:
  * chnode:datasetSubsetID - target of a FG annotation; refers to the abstraction of the data subset, that has a temporal extent, a subset selector and points to a dataset source.
  * chnode:temporalExtentID - refers to the time interval that defines the data subset
  * chnode:subsetSelectorID - refers to the geometry that defines the data subset
@@ -33,6 +33,7 @@ import com.google.gwt.json.client.JSONValue;
  */
 public class Annotation {
 
+	/* The parts of a CHARMe Annotation following the latest CHARMe data model, not yet definitive */
 	private final String body;
 	private final String target;
 	private final String motivation;
@@ -49,8 +50,8 @@ public class Annotation {
 	 * @param type the annotation type, based on W3C's OA standard
 	 * @param motivation the user's type of motivation for creating the annotation
 	 * @param content the user comment about the annotation
-	 * @param sr the sr
-	 * @param ss the ss
+	 * @param sr the specific resource (see W3C Open Annotation model)
+	 * @param ss the subset selector (see W3C Open Annotation model)
 	 */
 	public Annotation(String body, String target, String type,
 			String motivation, String comment, SpecificResource sr, SubsetSelector ss) {
@@ -65,9 +66,9 @@ public class Annotation {
 	}
 
 	/**
-	 * Instantiates a new annotation object from a JSONValue object received from the CHARMe Node.
+	 * Instantiates a new annotation object from a JSONValue object received from the CHARMe Triplestore/Node.
 	 *
-	 * @param json A JSON-LD Array object received from the CHARMe Node
+	 * @param json A JSON-LD Array object received from the CHARMe Triplestore/Node
 	 */
 	public Annotation(JSONValue json) {
 		// TODO parse json
@@ -81,34 +82,34 @@ public class Annotation {
 	}
 	
 	/**
-	 * Gets the annotation body.
+	 * Gets the annotation body, which is a user comment about the dataset.
 	 *
-	 * @return the body
+	 * @return the annotation body, which is a user comment about the dataset.
 	 */
 	public String getBody() {
 		return this.body;
 	}
 	
 	/**
-	 * Gets the annotation target, which is a subset of a dataset.
+	 * Gets the annotation target, which is the URI of a subset of a dataset.
 	 *
-	 * @return the annotation target
+	 * @return the annotation target, which is the URI of a subset of a dataset.
 	 */
 	public String getTarget() {
 		return this.target;
 	}
 
 	/**
-	 * Gets the user's motivation for the annotation.
+	 * Gets the user's motivation for the annotation, has to be one of the enumerated type described in W3C OA standard.
 	 *
-	 * @return the user's motivation for the annotation
+	 * @return the user's motivation for the annotation, from the enumerated type described in W3C OA standard.
 	 */
 	public String getMotivation() {
 		return this.motivation;
 	}
 	
 	/**
-	 * Gets the annotation type.
+	 * Gets the annotation type, has to be one of the enumerated type described in W3C OA standard. 
 	 *
 	 * @return the annotation type
 	 */
@@ -117,7 +118,8 @@ public class Annotation {
 	}
 	
 	/**
-	 * Gets the user comment.
+	 * Gets the user comment, to be deprecated as so does the getBody method.
+	 * TODO: Deprecate
 	 *
 	 * @return the user comment
 	 */
@@ -126,7 +128,7 @@ public class Annotation {
 	}
 
 	/**
-	 * Gets the specific resource.
+	 * Gets the specific resource, an object that links the object representing the dataset subset (charme:datasetSubset) with the dataset it comes from.
 	 *
 	 * @return the specific resource
 	 */
@@ -135,7 +137,8 @@ public class Annotation {
 	}
 
 	/**
-	 * Gets the subset selector.
+	 * Gets the subset selector, describes the boundaries of the subset.
+	 * TODO: Might be better to access this from the subset selector instead of directly from the annotation object.
 	 *
 	 * @return the subset selector
 	 */

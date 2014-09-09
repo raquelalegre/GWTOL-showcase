@@ -4,8 +4,9 @@ import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONValue;
 
 /**
- * The Class JSONLDElementArray represents an array of key-value/predicate-object pairs in a JSON-LD element.
- * For example, 
+ * The Class JSONLDElementArray represents an array of key-value/predicate-object pairs in a JSON-LD object.
+ *  
+ * For example, this would be a JSON-LD Element Array:
  *     
  * The "charme:hasContent" predicate has an array of key-value/predicate-object pairs that can be represented as JSONLDElements: 
  *     "http://www.charme.org.uk/def/hasContent": [
@@ -14,6 +15,11 @@ import com.google.gwt.json.client.JSONValue;
  *         "@value": "There is sampling station here"
  *       }
  *     ]
+ *     
+ * In JSON-LD, elements are information in between {} while arrays are information in between [].
+ * Note how a JSON-LD object, like the example in GWTOL-showcase/gwt-openlayers-showcase/annotation_sample/fgc_annot.json.
+ * 
+ * See the JSON-LD specs and the CHARMe data model for more information.
  *   
  * @author: raquel
  */

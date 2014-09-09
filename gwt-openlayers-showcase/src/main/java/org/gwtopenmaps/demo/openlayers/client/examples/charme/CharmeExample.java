@@ -47,7 +47,15 @@ import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  *
- * @author Raquel Alegre
+ * Entrypoint for the CHARMe Example that showcases the CHARMe Maps tool, a prototype that will show the ability of the CHARMe Triplestore/Node to use Linked Data and W3C's Open Annotation for creating annotations about subsets of scientific data.
+ * This tool is developed using GWT and Open Layers. This example extends the showcase created by the developer of the GWT wrapper for OpenLayers, which is not part of the CHARMe Project, but is used by the developers of the CHARMe Maps.
+ * This example will be exported to the Godiva2 tool developed at University of Reading. This tool uses ncWMS, a Web Map Service that loads mapped scientific data and plot them in Open Layers using the GWT wrapper this example is based on.
+ * The logic of this example is been designed based on the MVVP (Model-View-View Presenter) architectural patter, which nicely uses the view presenter to perform all the logic of the application. The view is totally independent from the model, making the code more modular and easy to change.  
+ * This example should show an interactive map where a user can select a subset in the map, insert some input data in a pop-up, and send it to the CHARMe Triplestore/Node. The application will create a JSON-LD (JSON for Linked Data) file and send it to the node.
+ * It'll also show the existent annotations inside the boundaries shown in the map. Interactive markers for each of the annotation will allow users visualize the content of the annotation.
+ * 
+ * 
+ * @author raquel
  *
  */
 
@@ -117,6 +125,13 @@ public class CharmeExample extends AbstractExample {
 
     }
 
+    
+	/**
+	 * Open new annotation popup for the user to insert a commentary about the subset they've selected.
+	 *
+	 * @param map the map object
+	 * @param mapClickEvent the map click event
+	 */
 	private void openNewAnnotationPopup(final Map map, MapClickListener.MapClickEvent mapClickEvent) {
 
 	    LonLat lonLat = mapClickEvent.getLonLat();
@@ -125,12 +140,14 @@ public class CharmeExample extends AbstractExample {
         // Create CHARMe pop up
 	    DialogBoxWithCloseButton dialogBox = new DialogBoxWithCloseButton(false);
 		dialogBox.setText("New Annotation");
-	    
+
+		//Call the view implementation and make the presenter start the logic of the example.
 	    final NewAnnotationView newAnnotationPopupView = new NewAnnotationViewImpl();
 		NewAnnotationPresenter nap = new NewAnnotationPresenterImpl(newAnnotationPopupView, lonLat);
 		nap.go(dialogBox);
 	}
 	
+	/* Needed by the showcase developed by GWT-OpenLayers developers. */
     @Override
     public String getSourceCodeURL() {
         return GWT.getModuleBaseURL() + "examples/charme/"
