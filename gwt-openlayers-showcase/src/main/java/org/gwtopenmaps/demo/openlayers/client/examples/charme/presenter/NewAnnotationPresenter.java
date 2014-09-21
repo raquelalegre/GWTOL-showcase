@@ -24,9 +24,10 @@ public interface NewAnnotationPresenter extends PresenterPopup {
 	 * @param valStop the val stop
 	 * @param depthStart the depth start
 	 * @param depthStop the depth stop
+	 * @param calendar 
 	 * @param variables the variables
 	 */
-	public void onOkClicked(String type, String motivation, String tags, String comment, String wktText, String timeFormat, String valStart, String valStop, String depthStart, String depthStop, List<String> variables);
+	public void onOkClicked(String type, String motivation, String tags, String comment, String wktText, String calendar, String timeFormat, String valStart, String valStop, String depthStart, String depthStop, List<String> variables);
 	
 	/**
 	 * On cancel clicked.

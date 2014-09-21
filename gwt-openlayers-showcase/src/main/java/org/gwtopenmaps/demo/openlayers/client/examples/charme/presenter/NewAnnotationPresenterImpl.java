@@ -57,7 +57,7 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 	 */
 	@Override
 	public void onOkClicked(String type, String motivation, String tags,
-			String comment, String wktText, String timeFormat, String valStart,
+			String comment, String wktText, String calendar, String timeFormat, String valStart,
 			String valStop, String depthStart, String depthStop,
 			List<String> variables) {
 
@@ -66,6 +66,7 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 		// Initialise a SubsetSelector
 		SubsetSelector ss = new SubsetSelector();
 		ss.setGeometry(wktText);
+		ss.setCalendar(calendar);
 		ss.setTimeFormat(timeFormat);
 		ss.setValidityStart(valStart);
 		ss.setValidityStop(valStop);
@@ -76,10 +77,8 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 		// Initialise a SpecificResource object
 		SpecificResource sr = new SpecificResource();
 		sr.setSelector(ss);
-		String source = null; // URI of the dataset
+		String source = null; // TODO: URI of the dataset
 		sr.setSource(source);
-
-		// /
 		
 		String body = null; // URI of the subset selector?
 		String target = null; // URI of the subset selector

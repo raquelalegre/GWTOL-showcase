@@ -94,7 +94,7 @@ public class JSONLDAnnotation extends JSONLDElementArray {
 		JSONLDElement temporalExtent = new JSONLDElement(new JSONObject());
 		temporalExtent.setId("chnode:temporalExtentID");
 		temporalExtent.add("http://www.charme.org.uk/def/hasCalendar",
-				createPredicate(null, null, "Gregorian"));
+				createPredicate(null, null, annotation.getSubsetSelector().getCalendar()));
 		temporalExtent.add(
 				"http://www.charme.org.uk/def/hasStart",
 				createPredicate(null,

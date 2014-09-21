@@ -14,7 +14,8 @@ import org.gwtopenmaps.openlayers.client.LonLat;
  * <chnode:subsetSelectorID> a charme:SubsetSelector ;
  * charme:hasVariables "chlor_a", "sst" ;
  * strdf:hasGeometry "POINT(-50 44);<http://www.opengis.net/def/crs/EPSG/0/4326>"^^strdf:WKT ;
- * charme:hasDepthInterval <chnode:depthIntervalID>
+ * charme:hasCalendar "Gregorian" ;
+ * charme:hasDepthInterval <chnode:depthIntervalID> ;
  * charme:hasTemporalExtent <chnode:temporalExtentID> .
  * 
  * @author raquel 
@@ -24,6 +25,7 @@ public class SubsetSelector {
 	
 	private List<String> variables;
 	private String geometry;
+	private String calendar;
 	private String validityStart;
 	private String validityStop;
 	private String dateFormat;
@@ -75,6 +77,15 @@ public class SubsetSelector {
 	public void setValidityStop (String validityStop){
 		this.validityStop = validityStop;
 	}
+
+	/**
+	 * Sets the calendar for the time constraints.
+	 *
+	 * @param calendar The calendar
+	 */
+	public void setCalendar(String calendar) {
+		this.calendar = calendar;
+	}
 		
 	/**
 	 * Sets the time format the annotation applies to.
@@ -123,7 +134,7 @@ public class SubsetSelector {
 	}
 	
 	/**
-	 * TODO: this is very dirty...
+	 * TODO: this is very dirty... Needs a WKT parser, but none available for GWT...
 	 * @return
 	 */
 	public LonLat getLonLatFromGeometry() {
@@ -136,6 +147,16 @@ public class SubsetSelector {
 		LonLat ll = new LonLat(lon, lat);
 		return ll;
 	}
+	
+	/**
+	 * Gets the calendar.
+	 *
+	 * @return the calendar
+	 */
+	public String getCalendar (){
+		return this.calendar;
+	}
+	
 	/**
 	 * Gets the validity start the annotation applies to.
 	 *

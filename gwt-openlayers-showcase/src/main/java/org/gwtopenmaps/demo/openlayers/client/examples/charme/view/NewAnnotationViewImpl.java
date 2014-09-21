@@ -42,6 +42,7 @@ public class NewAnnotationViewImpl extends VerticalPanel implements
 	private ListBox lbMotivation;
 	private TextBox tbTags;
 	private ListBox lbDateFormat;
+	private ListBox lbCalendar;
 
 	// constructor will eventually need geo boundaries, time boundaries, depth
 	// boundaries and current variable name
@@ -177,9 +178,13 @@ public class NewAnnotationViewImpl extends VerticalPanel implements
 		fpButtons.add(cancelButton);
 		fpButtons.add(okButton);
 
-		// TODO: Add calendar for time period selection based on dataset's
-		// covered period
-		// Leave Some text boxes by now...
+		//TODO:What are the most popular calendars used in EO?
+		lbCalendar = new ListBox();
+		lbCalendar.addItem("Gregorian");
+		lbCalendar.addItem("Julian");
+		final Label lCalendar = new Label();
+		lCalendar.setText("Calendar: ");
+		
 		final Label lDateBegin = new Label();
 		lDateBegin.setText("Begin: ");
 		final Label lDateEnd = new Label();
@@ -187,10 +192,16 @@ public class NewAnnotationViewImpl extends VerticalPanel implements
 		tbBegin = new TextBox();
 		tbEnd = new TextBox();
 
-		// A Horizontal Panel will contain these
+		//A Horizontal Panel will contain the calendar and the format
+		final HorizontalPanel hpDateOptions = new HorizontalPanel();
+		hpDateOptions.add(lCalendar);
+		hpDateOptions.add(lbCalendar);
+		hpDateOptions.add(lDateFormat);
+		hpDateOptions.add(lbDateFormat);
+
+		
+		//Another Horizontal Panel will contain the date start and end
 		final HorizontalPanel hpPeriod = new HorizontalPanel();
-		hpPeriod.add(lDateFormat);
-		hpPeriod.add(lbDateFormat);
 		hpPeriod.add(lDateBegin);
 		hpPeriod.add(tbBegin);
 		hpPeriod.add(lDateEnd);
@@ -211,6 +222,7 @@ public class NewAnnotationViewImpl extends VerticalPanel implements
 		this.setSize("600", "450");
 		this.add(vpAnnot);
 		this.add(vpGeometry);
+		this.add(hpDateOptions);
 		this.add(hpPeriod);
 		this.add(vpDepth);
 		this.add(vpVars);
@@ -277,8 +289,8 @@ public class NewAnnotationViewImpl extends VerticalPanel implements
 
 		String wktText = taGeometry.getText();
 
-		String timeFormat = lbDateFormat.getItemText(lbAnnotType
-				.getSelectedIndex());
+		String calendar = lbCalendar.getItemText(lbCalendar.getSelectedIndex());
+		String timeFormat = lbDateFormat.getItemText(lbDateFormat.getSelectedIndex());
 		String valStart = tbBegin.getText();
 		String valStop = tbEnd.getText();
 
@@ -295,7 +307,7 @@ public class NewAnnotationViewImpl extends VerticalPanel implements
 
 		// Send to CHARMe Node
 		presenter
-				.onOkClicked(type, motivation, tags, comment, wktText,
+				.onOkClicked(type, motivation, tags, comment, wktText, calendar,
 						timeFormat, valStart, valStop, depthStart, depthStop,
 						variables);
 
