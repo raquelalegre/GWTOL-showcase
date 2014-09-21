@@ -1,0 +1,167 @@
+[
+  {
+    "@id": "http://oceancolor.gsfc.nasa.gov/cgi/l3/A20140912014120.L3m_MO_CHL_chlor_a_9km.png",
+    "@type": [
+      "http://www.charme.org.uk/def/dataset"
+    ]
+  },
+  {
+    "@id": "http://pk904866",
+    "@type": [
+      "http://xmlns.com/foaf/0.1/Person"
+    ],
+    "http://xmlns.com/foaf/0.1/mbox": [
+      {
+        "@id": "mailto:r.alegre@reading.ac.uk"
+      }
+    ],
+    "http://xmlns.com/foaf/0.1/name": [
+      {
+        "@value": "Raquel Alegre"
+      }
+    ]
+  },
+  {
+    "@id": "chnode:bodyID",
+    "@type": [
+      "http://www.charme.org.uk/def/user_comment"
+    ],
+    "http://www.charme.org.uk/def/hasContent": [
+      {
+        "@type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#text",
+        "@value": "There is a sampling station here - we can validate our satellite data with the samples from this station."
+      }
+    ]
+  },
+  {
+    "@id": "chnode:annoID",
+    "@type": [
+      "http://www.w3.org/ns/oa#Annotation"
+    ],
+    "http://www.w3.org/ns/oa#annotatedAt": [
+      {
+        "@value": "2014-05-12T11:30:00Z"
+      }
+    ],
+    "http://www.w3.org/ns/oa#annotatedBy": [
+      {
+        "@id": "http://pk904866"
+      }
+    ],
+    "http://www.w3.org/ns/oa#hasBody": [
+      {
+        "@id": "chnode:bodyID"
+      }
+    ],
+    "http://www.w3.org/ns/oa#hasTarget": [
+      {
+        "@id": "chnode:datasetSubsetID"
+      }
+    ],
+    "http://www.w3.org/ns/oa#motivatedBy": [
+      {
+        "@id": "http://www.w3.org/ns/oa#linking"
+      }
+    ],
+    "http://www.w3.org/ns/oa#serializedAt": [
+      {
+        "@value": "2013-12-28T12:00:00Z"
+      }
+    ],
+    "http://www.w3.org/ns/oa#serializedBy": [
+      {
+        "@id": "chnode:agentID"
+      }
+    ]
+  },
+  {
+    "@id": "chnode:datasetSubsetID",
+    "@type": [
+      "http://www.charme.org.uk/def/DatasetSubset"
+    ],
+    "http://www.w3.org/ns/oa#hasSelector": [
+      {
+        "@id": "chnode:subsetSelectorID"
+      }
+    ],
+    "http://www.w3.org/ns/oa#hasSource": [
+      {
+        "@id": "http://oceancolor.gsfc.nasa.gov/cgi/l3/A20140912014120.L3m_MO_CHL_chlor_a_9km.png"
+      }
+    ]
+  },
+  {
+    "@id": "chnode:agentID",
+    "@type": [
+      "http://www.w3.org/ns/prov#SoftwareAgent"
+    ],
+    "http://xmlns.com/foaf/0.1/name": [
+      {
+        "@value": "CHARMe Maps v0.1"
+      }
+    ]
+  },
+  {
+    "@id": "chnode:spatialExtentID",
+    "@type": [
+      "http://www.charme.org.uk/def/SpatialExtent"
+    ],
+    "http://www.geonames.org/ontologyname": [
+      {
+        "@value": "North Atlantic Ocean"
+      }
+    ],
+    "http://www.opengis.net/ont/geosparql#hasGeometry": [
+      {
+        "@type": "http://www.opengis.net/ont/geosparql#wktLiteral",
+        "@value": "POINT(40 40);<http://www.opengis.net/def/crs/EPSG/0/4326>"
+      }
+    ]
+  },
+  {
+    "@id": "chnode:temporalExtentID",
+    "http://www.charme.org.uk/def/hasCalendar": [
+      {
+        "@value": "Gregorian"
+      }
+    ],
+    "http://www.charme.org.uk/def/hasTemporalStart": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2008-01-01T00:00:00+00:00"
+      }
+    ],
+    "http://www.charme.org.uk/def/hasTemporalStop": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2009-01-01T00:00:00+00:00"
+      }
+    ]
+  },
+  {
+    "@id": "chnode:subsetSelectorID",
+    "@type": [
+      "http://www.charme.org.uk/def/SubsetSelector"
+    ],
+    "http://www.charme.org.uk/def/hasSpatialExtent": [
+      {
+        "@id": "chnode:spatialExtentID"
+      }
+    ],
+    "http://www.charme.org.uk/def/hasTemporalExtent": [
+      {
+        "@id": "chnode:temporalExtentID"
+      }
+    ],
+    "http://www.charme.org.uk/def/hasVariable": [
+      {
+        "@value": "sst"
+      },
+      {
+        "@value": "chlor_a"
+      }
+    ]
+  }
+]
+
+
