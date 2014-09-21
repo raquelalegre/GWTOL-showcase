@@ -150,6 +150,7 @@ public class CharmeExample extends AbstractExample implements NewAnnotationPrese
         Markers layer = new Markers("markers");
         map.addLayer(layer);
  
+//        String iconImageURL = "http://icongal.com/gallery/image/460109/chartreuse_base_con_pixe_marker_map_outside_biswajit.png";
         String iconImageURL = "http://icongal.com/gallery/image/460109/chartreuse_base_con_pixe_marker_map_outside_biswajit.png";
         Icon icon = new Icon(iconImageURL, new Size(32, 32));
         final Marker marker = new Marker(p, icon);
@@ -202,9 +203,9 @@ public class CharmeExample extends AbstractExample implements NewAnnotationPrese
 	@Override
 	public void onNewAnnotationCrated(Annotation annotation) {
 		JSONLDAnnotation jsonAnnotation = annotation.toJson();
-		System.out.println("Annotation created: " + jsonAnnotation);
+		System.out.println("Annotation created: " + jsonAnnotation.getWrappedJson().toString());
 		System.out.println("Body retrieved from json annotation: " + jsonAnnotation.getBodyStr());
-		System.out.println("GEometry retrieved from json annotation: " + jsonAnnotation.getSubsetSelector().getHasGeometryStr());
+		System.out.println("Geometry retrieved from json annotation: " + jsonAnnotation.getSubsetSelector().getHasGeometryStr());
 
 		this.annotations.add(annotation);
 		addAnnotationsMarkersToUI();
