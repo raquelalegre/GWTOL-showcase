@@ -1,9 +1,6 @@
 package org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld;
 
-import java.util.List;
-
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.Annotation;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.SubsetSelector;
 
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
@@ -21,6 +18,7 @@ public class JSONLDAnnotation extends JSONLDElementArray {
 		this.add(createAgent(annotation));
 		this.add(createTargetDataset(annotation));
 		this.add(createAuthor(annotation));
+
 	}
 
 	/**
