@@ -2,12 +2,14 @@ package org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter;
 
 import java.util.List;
 
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld.JSONLDAnnotation;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.Annotation;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.SpecificResource;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.SubsetSelector;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.view.NewAnnotationView;
 import org.gwtopenmaps.openlayers.client.LonLat;
 
+import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 
@@ -24,6 +26,8 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 	
 	/** The popup panel. */
 	private PopupPanel popupPanel;
+
+	private NewAnnotationPresenterListener listener;
 
 	/**
 	 * Instantiates a new new annotation presenter impl.
@@ -81,16 +85,9 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 		String target = null; // URI of the subset selector
 
 		final Annotation annotation = new Annotation(body, target, type, motivation, comment, sr, ss);
-
-		System.out.println("Annotation created: " + annotation.toJson());
 		
-		// Serialise (Java Object -> JSON) using GSON
-//		Gson gson = new Gson();
-//		gson.toJson(annotation);
-//		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//		String json = gson.toJson(annotation);
-//		System.out.println(json);
-
+		listener.onNewAnnotationCrated(annotation);
+		
 		popupPanel.hide();
 	}
 
@@ -100,6 +97,11 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 	@Override
 	public void onCancelClicked() {
 		popupPanel.hide();
+	}
+
+	@Override
+	public void setListener(NewAnnotationPresenterListener listener) {
+		this.listener = listener;
 	}
 
 

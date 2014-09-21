@@ -2,9 +2,8 @@
 @prefix oa: <http://www.w3.org/ns/oa#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix geo: <http://www.geonames.org/ontology> .
+@prefix geonames: <http://www.geonames.org/ontology> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix strdf: <http://strdf.di.uoa.gr/ontology#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix chnode: <http://localhost> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
@@ -20,27 +19,32 @@
     oa:serializedBy <chnode:agentID> .
 
 <chnode:agentID> a prov:SoftwareAgent ;
-    foaf:name "CHARMe FGC Tool v0.1" .
+    foaf:name "CHARMe Maps v0.1" .
 
 <http://pk904866> a foaf:Person ;
     foaf:mbox <mailto:r.alegre@reading.ac.uk> ;
     foaf:name "Raquel Alegre" .
 
 <chnode:bodyID> a charme:user_comment ;
-    charme:hasContent "There is sampling station here"^^rdf:text .
+    charme:hasContent "There is a sampling station here - we can validate our satellite data with the samples from this station."^^rdf:text .
 
-<chnode:datasetSubsetID> a oa:SpecificResource ;
+<chnode:datasetSubsetID> a charme:DatasetSubset ;
   oa:hasSource  <http://oceancolor.gsfc.nasa.gov/cgi/l3/A20140912014120.L3m_MO_CHL_chlor_a_9km.png> ;
   oa:hasSelector <chnode:subsetSelectorID> .
 
 <http://oceancolor.gsfc.nasa.gov/cgi/l3/A20140912014120.L3m_MO_CHL_chlor_a_9km.png> a charme:dataset .
 
 <chnode:subsetSelectorID> a charme:SubsetSelector ;
-  charme:hasVariables "chlor_a", "sst" ;
-  strdf:hasGeometry "POINT(-50 44);<http://www.opengis.net/def/crs/EPSG/0/4326>"^^strdf:WKT ;
+  charme:hasVariable "sst" ;
+  charme:hasVariable "chlor_a" ;  
+  charme:hasSpatialExtent <chnode:spatialExtentID> ;
   charme:hasTemporalExtent <chnode:temporalExtentID> .
-  
+
+<chnode:spatialExtentID> a charme:SpatialExtent ;
+  geonames:name "North Atlantic Ocean" ;
+  geosparql:hasGeometry "POINT(40 40);<http://www.opengis.net/def/crs/EPSG/0/4326>"^^geosparql:wktLiteral .
+
 <chnode:temporalExtentID>
     charme:hasCalendar "Gregorian" ;
-    charme:hasStart "2008-01-01T00:00:00Z"^^xsd:dateTime ;
-    charme:hasStop "2009-01-01T00:00:00Z"^^xsd:dateTime .
+    charme:hasTemporalStart "2008-01-01T00:00:00Z"^^xsd:dateTime ;
+    charme:hasTemporalStop "2009-01-01T00:00:00Z"^^xsd:dateTime .

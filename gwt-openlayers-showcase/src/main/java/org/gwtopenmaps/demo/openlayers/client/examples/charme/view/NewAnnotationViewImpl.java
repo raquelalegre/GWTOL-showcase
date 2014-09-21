@@ -3,7 +3,6 @@ package org.gwtopenmaps.demo.openlayers.client.examples.charme.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.gwtopenmaps.demo.openlayers.client.DialogBoxWithCloseButton;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenter;
 import org.gwtopenmaps.openlayers.client.LonLat;
 
