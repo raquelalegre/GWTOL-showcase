@@ -151,7 +151,7 @@ public class CharmeExample extends AbstractExample implements NewAnnotationPrese
         map.addLayer(layer);
  
 //        String iconImageURL = "http://icongal.com/gallery/image/460109/chartreuse_base_con_pixe_marker_map_outside_biswajit.png";
-        String iconImageURL = "http://icongal.com/gallery/image/460109/chartreuse_base_con_pixe_marker_map_outside_biswajit.png";
+        String iconImageURL = "http://www.wheatonbible.org/Content/10713/Icons/map-marker.png";
         Icon icon = new Icon(iconImageURL, new Size(32, 32));
         final Marker marker = new Marker(p, icon);
         layer.addMarker(marker);
