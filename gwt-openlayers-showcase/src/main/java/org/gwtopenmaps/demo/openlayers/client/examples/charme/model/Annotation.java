@@ -1,5 +1,7 @@
 package org.gwtopenmaps.demo.openlayers.client.examples.charme.model;
 
+import java.util.List;
+
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld.JSONLDAnnotation;
 
 import com.google.gwt.json.client.JSONObject;
@@ -9,14 +11,13 @@ import com.google.gwt.json.client.JSONObject;
  * Represents a CHARMe Annotation created specifically for annotating subsets of data.
  * TODO: Incorporate all other possible fields (citation, etc) when we have a clearly defined Annotation schema from the CHARMe Node
  * 
- * This class also includes the conversion from Annotation Object -> JSON-LD and viceversa.
- * TODO: Separate this JSON logic to somewhere else.
+ * This class also includes access to the conversion from Annotation Object -> JSON-LD and viceversa.
  * 
  * This is how an FG Annotation should look like in RDF-Turtle:
- * GWTOL-showcase/gwt-openlayers-showcase/annotation_sample/fgc_annot.ttl
+ * GWTOL-showcase/gwt-openlayers-showcase/annotation_sample/*.ttl
  * 
  * This is the JSON-LD equivalent (from RDF translator: http://rdf-translator.appspot.com/):
- * GWTOL-showcase/gwt-openlayers-showcase/annotation_sample/fgc_annot.json
+ * GWTOL-showcase/gwt-openlayers-showcase/annotation_sample/*.json-ld
  *  
  * TODO: Work is still undergoing in the CHARMe Node side, and the following are not yet translated to CHARMe URIs, but will:
  * chnode:datasetSubsetID - target of a FG annotation; refers to the abstraction of the data subset, that has a temporal extent, a subset selector and points to a dataset source.
@@ -28,36 +29,50 @@ import com.google.gwt.json.client.JSONObject;
 public class Annotation {
 
 	private final String body;
-	private final String target;
+	private final SpecificResource target;
 	private final String motivation;
 	private final String type;
-	private final String comment;
-	private final SpecificResource sr;
-	private final SubsetSelector ss;
-
+	
 	/**
 	 * Instantiates a new annotation given a set of parameters
 	 *
-	 * @param body the annotation body, following W3C's OA standard
-	 * @param target the parent dataset the annotation target refers to
+	 * @param body the annotation body, following W3C's OA standard, in this case it will always be a user comment
+	 * @param target the dataset subset the annotation refers to, which is a OA Specific Resource
 	 * @param type the annotation type, based on W3C's OA standard
-	 * @param motivation the user's type of motivation for creating the annotation
-	 * @param content the user comment about the annotation
-	 * @param sr the sr
-	 * @param ss the ss
+	 * @param motivation the user's type of motivation for creating the annotation, from the enumerate type defined by W3C OA
+	 * TODO: Make constructor receive all inputs from the user and elaborate it's own Specific Resource, which in turns creates the selector, which in turn elaborates the extents.
 	 */
-	public Annotation(String body, String target, String type,
-			String motivation, String comment, SpecificResource sr, SubsetSelector ss) {
+	public Annotation(String body, SpecificResource target, String motivation, String type) {
 		super();
 		this.body = body;
 		this.target = target;
 		this.motivation = motivation;
 		this.type = type;
-		this.comment = comment;
-		this.sr = sr;
-		this.ss = ss;
+	}
+	
+	//Simpler constructor with only one variable, one temporal extent, vertical extent and one geometry 
+	public Annotation(String body, String motivation, String type, String source, List<String> variables, TemporalExtent temporalExtent, SpatialExtent spatialExtent, VerticalExtent verticalExtent){
+		super();
+		this.body = body;
+		this.target = new SpecificResource(source, variables, temporalExtent, spatialExtent, verticalExtent);
+		this.motivation = motivation;
+		this.type = type;
 	}
 
+	//Another simpler constructor with only primitives for one variable, one temporal extent, vertical extent and one geometry 
+	public Annotation(String body, String motivation, String type, String source, List<String> variables, 
+			String calendar, String temporalStart, String temporalStop, String wktText, String geoname, String depthStart, String depthStop){
+		super();
+		this.body = body;
+		this.motivation = motivation;
+		this.type = type;
+		TemporalExtent temporalExtent = new TemporalExtent(calendar, temporalStart, temporalStop);
+		SpatialExtent spatialExtent = new SpatialExtent(wktText, geoname);
+		VerticalExtent verticalExtent = new VerticalExtent(depthStart, depthStop);
+		this.target = new SpecificResource(source, variables, temporalExtent, spatialExtent, verticalExtent);
+	}
+	
+	
 	/**
 	 * Instantiates a new annotation object from a JSONValue object received from the CHARMe Node.
 	 *
@@ -69,9 +84,9 @@ public class Annotation {
 		this.target = null;
 		this.motivation = null;
 		this.type = null;
-		this.comment = null;
-		this.sr = null;
-		this.ss = new SubsetSelector(jsonAnnotation.getSubsetSelector());
+//		this.comment = null;
+//		this.sr = null;
+//		this.ss = new SubsetSelector(jsonAnnotation.getSubsetSelector());
 		
 		
 		//Gets a JSONValue that is a JSONArray formed by JSONObjects. 
@@ -84,16 +99,12 @@ public class Annotation {
 	}
 	
 	public JSONObject getJSONElement (String id){
-		
-		
 		JSONObject element = null;
-		
-		
 		return element;
 	}
 	
 	/**
-	 * Gets the annotation body.
+	 * Gets the annotation body, which is the user comment.
 	 *
 	 * @return the body
 	 */
@@ -106,7 +117,7 @@ public class Annotation {
 	 *
 	 * @return the annotation target
 	 */
-	public String getTarget() {
+	public SpecificResource getTarget() {
 		return this.target;
 	}
 
@@ -127,42 +138,17 @@ public class Annotation {
 	public String getType() {
 		return this.type;
 	}
-	
-	/**
-	 * Gets the user comment.
-	 *
-	 * @return the user comment
-	 */
-	public String getContent() {
-		return this.comment;
-	}
 
-	/**
-	 * Gets the specific resource.
-	 *
-	 * @return the specific resource
-	 */
-	public SpecificResource getSpecificResource() {
-		return this.sr;
-	}
-
-	/**
-	 * Gets the subset selector.
-	 *
-	 * @return the subset selector
-	 */
-	public SubsetSelector getSubsetSelector() {
-		return this.ss;
-	}
+	//TODO: Create getters for the annotation to obtain from the subset selector, extents, etc
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	//TODO: Review and update when the rest of the elements are complete
 	@Override
 	public String toString() {
 		return "Annotation [body=" + body + ", target=" + target
-				+ ", motivation=" + motivation + ", type=" + type
-				+ ", comment=" + comment + ", sr=" + sr + ", ss=" + ss + "]";
+				+ ", motivation=" + motivation + ", type=" + type + "]";
 	}
 	
 	/**

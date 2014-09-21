@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld.JSONLDAnnotation;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.Annotation;
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.SpatialExtent;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.SpecificResource;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.SubsetSelector;
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.TemporalExtent;
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.VerticalExtent;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.view.NewAnnotationView;
 import org.gwtopenmaps.openlayers.client.LonLat;
 
@@ -57,33 +60,16 @@ public class NewAnnotationPresenterImpl implements NewAnnotationPresenter {
 	 */
 	@Override
 	public void onOkClicked(String type, String motivation, String tags,
-			String comment, String wktText, String calendar, String timeFormat, String valStart,
-			String valStop, String depthStart, String depthStop,
+			String comment, String wktText, String calendar, String timeFormat, String temporalStart,
+			String temporalStop, String depthStart, String depthStop,
 			List<String> variables) {
 
 		// Create new Annotation object with user's input
-
-		// Initialise a SubsetSelector
-		SubsetSelector ss = new SubsetSelector();
-		ss.setGeometry(wktText);
-		ss.setCalendar(calendar);
-		ss.setTimeFormat(timeFormat);
-		ss.setValidityStart(valStart);
-		ss.setValidityStop(valStop);
-		ss.setVariables(variables);
-		ss.setDepthStart(depthStart);
-		ss.setDepthStop(depthStop);
-
-		// Initialise a SpecificResource object
-		SpecificResource sr = new SpecificResource();
-		sr.setSelector(ss);
 		String source = null; // TODO: URI of the dataset
-		sr.setSource(source);
-		
-		String body = null; // URI of the subset selector?
-		String target = null; // URI of the subset selector
+		String geoname = null; //TODO
 
-		final Annotation annotation = new Annotation(body, target, type, motivation, comment, sr, ss);
+		final Annotation annotation = new Annotation(comment, motivation, type, source, variables, calendar, temporalStart, temporalStop, wktText, geoname, depthStart, depthStop);
+			
 		
 		listener.onNewAnnotationCrated(annotation);
 		
