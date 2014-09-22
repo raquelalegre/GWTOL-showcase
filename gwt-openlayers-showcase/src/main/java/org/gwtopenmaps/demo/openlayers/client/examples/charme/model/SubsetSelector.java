@@ -1,119 +1,103 @@
 package org.gwtopenmaps.demo.openlayers.client.examples.charme.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld.JSONLDSubsetSelector;
-import org.gwtopenmaps.openlayers.client.LonLat;
 
 /**
- * The Class SubsetSelector contains the information relative to the subset boundaries (time extent, depth interval and geographic boundaries)
+ * The Class SubsetSelector contains the elements relative to the subset boundaries (variables, time extent, depth interval and geographic boundaries).
+ * Note a SubsetSelector may have several temporal extents, or variables, and so on.
  * This follows the W3C OA standard, the Strabon stRDF model for annotation geographical subsets and needs an adhoc ontology from CHARMe for completion - this is under development at the moment, so I'm using the model from the latest discussion on 14th July 2014.
  *
  * For example (RDF-Turtle):
  * 
  * <chnode:subsetSelectorID> a charme:SubsetSelector ;
- * charme:hasVariables "chlor_a", "sst" ;
- * strdf:hasGeometry "POINT(-50 44);<http://www.opengis.net/def/crs/EPSG/0/4326>"^^strdf:WKT ;
- * charme:hasCalendar "Gregorian" ;
- * charme:hasDepthInterval <chnode:depthIntervalID> ;
+ * charme:hasVariable "sst" ;
+ * charme:hasVariable "chlor_a" ;  
+ * charme:hasSpatialExtent <chnode:spatialExtentID> ;
  * charme:hasTemporalExtent <chnode:temporalExtentID> .
  * 
  * @author raquel 
  */
 public class SubsetSelector {
 	
+	private  List<String> variables;
+	private  List<TemporalExtent> temporalExtents;
+	private  List<SpatialExtent> spatialExtents;
+	private  List<VerticalExtent> verticalExtents;
 	
-	private List<String> variables;
-	private String geometry;
-	private String calendar;
-	private String validityStart;
-	private String validityStop;
-	private String dateFormat;
-	private String depthStart;
-	private String depthStop;
-	
-	public SubsetSelector() {
-		// TODO Auto-generated constructor stub
+	public SubsetSelector(List<String> variables, List<TemporalExtent> temporalExtents, List<SpatialExtent> spatialExtents, List<VerticalExtent> verticalExtents) {
+		super();
+		
+		this.variables = variables;
+		this.temporalExtents = temporalExtents;
+		this.spatialExtents = spatialExtents;
+		this.verticalExtents = verticalExtents;
+	}
+
+	//Simpler constructor with only one variable, one temporal extent, vertical extent and one geometry 
+	public SubsetSelector(List<String> variables, TemporalExtent temporalExtent, SpatialExtent spatialExtent, VerticalExtent verticalExtent) {
+		super();
+		this.variables = new ArrayList<String>();
+		this.temporalExtents = new ArrayList<TemporalExtent>();
+		this.spatialExtents = new ArrayList<SpatialExtent>();
+		this.verticalExtents = new ArrayList<VerticalExtent>();
+		this.setVariables(variables);
+		this.setTemporalExtent(temporalExtent);
+		this.setSpatialExtent(spatialExtent);
+		this.setVerticalExtent(verticalExtent);
 	}
 	
+	
+	/**
+	 * Creates a SubsetSelector from a JSON-LD object
+	 * 
+	 * @param subsetSelector
+	 */
 	public SubsetSelector(JSONLDSubsetSelector subsetSelector) {
 		// TODO get the rest of members
-		geometry = subsetSelector.getHasGeometryStr();
+		this.setSpatialExtent(new SpatialExtent(subsetSelector.getHasGeometryStr()));
 	}
 
 
 	/**
-	 * Sets the list of variables from the dataset the annotation applies to.
+	 * Adds a variable from the dataset to the list of variables the annotation applies to.
 	 *
-	 * @param variables the new variables
+	 * @param variable the new variable
 	 */
-	public void setVariables (List<String> variables){
+	public void setVariables (List<String> variables){		
 		this.variables = variables;
 	}
 	
 	/**
-	 * Sets the geometry the annotation applies to.
+	 * Adds a time interval to the list of variables the annotation applies to.
 	 *
-	 * @param geometry the new geometry
+	 * @param temporalExtent The time interval
 	 */
-	public void setGeometry (String geometry){
-		this.geometry = geometry;
-	}
-	
-	/**
-	 * Sets the validity start the annotation applies to.
-	 *
-	 * @param validityStart the new validity start
-	 */
-	public void setValidityStart (String validityStart){
-		this.validityStart = validityStart;
-	}
-	
-	/**
-	 * Sets the validity stop the annotation applies to.
-	 *
-	 * @param validityStop the new validity stop
-	 */
-	public void setValidityStop (String validityStop){
-		this.validityStop = validityStop;
+	public void setTemporalExtent (TemporalExtent temporalExtent){
+		this.temporalExtents.add(temporalExtent);
 	}
 
+	
 	/**
-	 * Sets the calendar for the time constraints.
+	 * Adds a geographic interval to the list of variables the annotation applies to.
 	 *
-	 * @param calendar The calendar
+	 * @param spatialExtent The geographic interval
 	 */
-	public void setCalendar(String calendar) {
-		this.calendar = calendar;
-	}
-		
-	/**
-	 * Sets the time format the annotation applies to.
-	 *
-	 * @param dateFormat the new time format
-	 */
-	public void setTimeFormat(String dateFormat) {
-		this.dateFormat = dateFormat;
+	public void setSpatialExtent (SpatialExtent spatialExtent){
+		this.spatialExtents.add(spatialExtent);
 	}
 
-	/**
-	 * Sets the depth start the annotation applies to.
-	 *
-	 * @param depthStart the new depth start
-	 */
-	public void setDepthStart(String depthStart) {
-		this.depthStart = depthStart;
-	}
 	
 	/**
-	 * Sets the depth stop the annotation applies to.
+	  * Adds a vertical interval to the list of variables the annotation applies to.
 	 *
-	 * @param depthStop the new depth stop
+	 * @param verticalExtent The vertical interval
 	 */
-	public void setDepthStop(String depthStop) {
-		this.depthStop = depthStop;
+	public void setVerticalExtent (VerticalExtent verticalExtent){
+		this.verticalExtents.add(verticalExtent);
 	}
-	
 	
 	/**
 	 * Gets the variables the annotation applies to.
@@ -123,84 +107,32 @@ public class SubsetSelector {
 	public List<String> getVariables (){
 		return this.variables;
 	}
-	
-	/**
-	 * Gets the geometry the annotation applies to.
-	 *
-	 * @return the geometry
-	 */
-	public String getGeometry (){
-		return this.geometry;
-	}
-	
-	/**
-	 * TODO: this is very dirty... Needs a WKT parser, but none available for GWT...
-	 * @return
-	 */
-	public LonLat getLonLatFromGeometry() {
-		//"POINT(-50 44)
-		
-		String lonStr = geometry.substring(geometry.indexOf("(") + 1, geometry.indexOf(" "));
-		double lon = Double.parseDouble(lonStr);
-		String latStr = geometry.substring(geometry.indexOf(" ") + 1, geometry.indexOf(")"));
-		double lat = Double.parseDouble(latStr);
-		LonLat ll = new LonLat(lon, lat);
-		return ll;
-	}
-	
-	/**
-	 * Gets the calendar.
-	 *
-	 * @return the calendar
-	 */
-	public String getCalendar (){
-		return this.calendar;
-	}
-	
-	/**
-	 * Gets the validity start the annotation applies to.
-	 *
-	 * @return the validity start
-	 */
-	public String getValidityStart (){
-		return this.validityStart;
-	}
-	
-	/**
-	 * Gets the validity stop the annotation applies to.
-	 *
-	 * @return the validity stop
-	 */
-	public String getValidityStop (){
-		return this.validityStop;
-	}
-	
-	/**
-	 * Gets the time format the annotation applies to.
-	 *
-	 * @return the time format
-	 */
-	public String getTimeFormat() {
-		return this.dateFormat;
-	}
 
 	/**
-	 * Gets the depth start the annotation applies to.
+	 * Gets the time intervals the annotation applies to.
 	 *
-	 * @return the depth start
+	 * @return the time intervals
 	 */
-	public String getDepthStart() {
-		return this.depthStart;
+	public List<TemporalExtent> getTemporalExtents (){
+		return this.temporalExtents;
 	}
 	
 	/**
-	 * Gets the depth stop the annotation applies to.
+	 * Gets the geographic intervals the annotation applies to.
 	 *
-	 * @return the depth stop
+	 * @return the geometries
 	 */
-	public String getDepthStop() {
-		return this.depthStop;
+	public List<SpatialExtent> getSpatialExtents (){
+		return this.spatialExtents;
 	}
-
+	
+	/**
+	 * Gets the vertical intervals the annotation applies to.
+	 *
+	 * @return the vertical intervals
+	 */
+	public List<VerticalExtent> getVerticalExtent (){
+		return this.verticalExtents;
+	}
 
 }

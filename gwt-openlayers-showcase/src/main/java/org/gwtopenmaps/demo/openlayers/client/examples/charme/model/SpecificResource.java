@@ -2,8 +2,10 @@
 
 package org.gwtopenmaps.demo.openlayers.client.examples.charme.model;
 
+import java.util.List;
+
 /**
- * The Class SpecificResource describes the subset from a dataset that is the target of an annotation.
+ * The Class SpecificResource describes the annotation target which is a dataset subset that is the target of an annotation.
  * See W3C's OA standard specs.
  * 
  * Example (RDF-Turtle):
@@ -19,6 +21,20 @@ public class SpecificResource {
 	private String source;
 	private SubsetSelector selector;
 	
+	public SpecificResource(String source, SubsetSelector selector){
+		super();
+		this.source = source;
+		this.selector = selector;	
+	}
+	
+	//Simpler constructor with only one variable, one temporal extent, vertical extent and one geometry 
+	public SpecificResource(String source, List<String> variables, TemporalExtent temporalExtent, SpatialExtent spatialExtent, VerticalExtent verticalExtent){
+		super();
+		this.source = source;
+		this.selector = new SubsetSelector(variables, temporalExtent, spatialExtent, verticalExtent);
+	}
+	
+	
 	/**
 	 * Sets the source.
 	 *
@@ -33,8 +49,8 @@ public class SpecificResource {
 	 *
 	 * @param ss the new selector
 	 */
-	public void setSelector(SubsetSelector ss){
-		this.selector = ss;
+	public void setSelector(SubsetSelector selector){
+		this.selector = selector;
 	}
 		
 	/**

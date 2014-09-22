@@ -1,6 +1,10 @@
 package org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld;
 
+import java.util.List;
+
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.Annotation;
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.SpatialExtent;
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.TemporalExtent;
 
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
@@ -48,7 +52,7 @@ public class JSONLDAnnotation extends JSONLDElementArray {
 				"http://www.charme.org.uk/def/hasContent",
 				createPredicate(null,
 						"http://www.w3.org/1999/02/22-rdf-syntax-ns#text",
-						annotation.getContent()));
+						annotation.getBody()));
 
 		return body;
 	}
@@ -91,22 +95,23 @@ public class JSONLDAnnotation extends JSONLDElementArray {
 	 *         node.
 	 */
 	private JSONLDElement createTemporalExtent(Annotation annotation) {
+		List<TemporalExtent> temporalExtents = annotation.getTarget().getSelector().getTemporalExtents();
+		TemporalExtent temporalExtentAnnot = null;
+		for (TemporalExtent temporalExtentIt : temporalExtents){
+			temporalExtentAnnot = temporalExtentIt;
+		}
 		JSONLDElement temporalExtent = new JSONLDElement(new JSONObject());
 		temporalExtent.setId("chnode:temporalExtentID");
 		temporalExtent.add("http://www.charme.org.uk/def/hasCalendar",
-				createPredicate(null, null, annotation.getSubsetSelector().getCalendar()));
+				createPredicate(null, null, temporalExtentAnnot.getCalendar()));
 		temporalExtent.add(
 				"http://www.charme.org.uk/def/hasStart",
 				createPredicate(null,
-						"http://www.w3.org/2001/XMLSchema#dateTime", annotation
-								.getSpecificResource().getSelector()
-								.getValidityStart()));
+						"http://www.w3.org/2001/XMLSchema#dateTime", temporalExtentAnnot.getTemporalStart()));
 		temporalExtent.add(
 				"http://www.charme.org.uk/def/hasStop",
 				createPredicate(null,
-						"http://www.w3.org/2001/XMLSchema#dateTime", annotation
-								.getSpecificResource().getSelector()
-								.getValidityStop()));
+						"http://www.w3.org/2001/XMLSchema#dateTime", temporalExtentAnnot.getTemporalStart()));
 
 		return temporalExtent;
 	}
@@ -146,10 +151,14 @@ public class JSONLDAnnotation extends JSONLDElementArray {
 	 *         node.
 	 */
 	private JSONLDSubsetSelector createSubSelector(Annotation annotation) {
+		List<SpatialExtent> spatialExtents = annotation.getTarget().getSelector().getSpatialExtents();
+		SpatialExtent spatialExtentAnnot = null;
+		for (SpatialExtent spatialExtentIt : spatialExtents){
+			spatialExtentAnnot = spatialExtentIt;
+		}
 		JSONLDSubsetSelector ss = new JSONLDSubsetSelector(new JSONObject());
-		ss.setHasGeometry(annotation.getSpecificResource().getSelector()
-				.getGeometry());
-		ss.setHasVariables(annotation.getSpecificResource().getSelector()
+		ss.setHasGeometry(spatialExtentAnnot.getWktText());
+		ss.setHasVariables(annotation.getTarget().getSelector()
 				.getVariables());
 		return ss;
 	}
