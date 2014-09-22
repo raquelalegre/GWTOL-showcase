@@ -27,6 +27,7 @@ import org.gwtopenmaps.demo.openlayers.client.basic.AbstractExample;
 import org.gwtopenmaps.demo.openlayers.client.components.store.ShowcaseExampleStore;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld.JSONLDAnnotation;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.Annotation;
+import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.SpatialExtent;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenter;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenter.NewAnnotationPresenterListener;
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenterImpl;
@@ -144,8 +145,12 @@ public class CharmeExample extends AbstractExample implements NewAnnotationPrese
     
 	private void addAnnotationMarkerToUI(final Annotation annotation) {
 		//Draw interactive annotation markers in the map    
-        LonLat p = annotation.getSubsetSelector().getLonLatFromGeometry();
-        p.transform(DEFAULT_PROJECTION.getProjectionCode(), map.getProjection());
+        List<SpatialExtent> spatialExtents = annotation.getTarget().getSelector().getSpatialExtents();
+        LonLat lonlat = null;
+        for (SpatialExtent spatialExtent : spatialExtents){
+        	lonlat = 	spatialExtent.getLonLatFromWktText();        	
+        }
+        lonlat.transform(DEFAULT_PROJECTION.getProjectionCode(), map.getProjection());
         
         Markers layer = new Markers("markers");
         map.addLayer(layer);
@@ -153,13 +158,13 @@ public class CharmeExample extends AbstractExample implements NewAnnotationPrese
 //        String iconImageURL = "http://icongal.com/gallery/image/460109/chartreuse_base_con_pixe_marker_map_outside_biswajit.png";
         String iconImageURL = "http://www.wheatonbible.org/Content/10713/Icons/map-marker.png";
         Icon icon = new Icon(iconImageURL, new Size(32, 32));
-        final Marker marker = new Marker(p, icon);
+        final Marker marker = new Marker(lonlat, icon);
         layer.addMarker(marker);
  
         marker.addBrowserEventListener(EventType.MOUSE_OVER, new MarkerBrowserEventListener() {
  
             public void onBrowserEvent(MarkerBrowserEventListener.MarkerBrowserEvent markerBrowserEvent) {
-                popup = new FramedCloud("id1", marker.getLonLat(), null, annotation.getContent(), null, false);
+                popup = new FramedCloud("id1", marker.getLonLat(), null, annotation.getBody(), null, false);
                 popup.setPanMapIfOutOfView(true); //this set the popup in a strategic way, and pans the map if needed.
                 popup.setAutoSize(true);
                 map.addPopup(popup);

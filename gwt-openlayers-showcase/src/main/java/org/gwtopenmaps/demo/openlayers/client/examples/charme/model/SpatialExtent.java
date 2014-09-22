@@ -54,7 +54,7 @@ public class SpatialExtent {
 	 * "POINT(-50 44)
 	 * @return
 	 */
-	public LonLat getLonLatFromGeometry() {
+	public LonLat getLonLatFromWktText() {
 		String lonStr = wktText.substring(wktText.indexOf("(") + 1,
 				wktText.indexOf(" "));
 		double lon = Double.parseDouble(lonStr);

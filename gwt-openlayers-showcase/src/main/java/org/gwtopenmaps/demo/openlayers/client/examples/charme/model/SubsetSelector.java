@@ -1,5 +1,6 @@
 package org.gwtopenmaps.demo.openlayers.client.examples.charme.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld.JSONLDSubsetSelector;
@@ -21,13 +22,14 @@ import org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld.JSONLDSubse
  */
 public class SubsetSelector {
 	
-	private List<String> variables;
-	private List<TemporalExtent> temporalExtents;
-	private List<SpatialExtent> spatialExtents;
-	private List<VerticalExtent> verticalExtents;
+	private  List<String> variables;
+	private  List<TemporalExtent> temporalExtents;
+	private  List<SpatialExtent> spatialExtents;
+	private  List<VerticalExtent> verticalExtents;
 	
 	public SubsetSelector(List<String> variables, List<TemporalExtent> temporalExtents, List<SpatialExtent> spatialExtents, List<VerticalExtent> verticalExtents) {
 		super();
+		
 		this.variables = variables;
 		this.temporalExtents = temporalExtents;
 		this.spatialExtents = spatialExtents;
@@ -37,6 +39,10 @@ public class SubsetSelector {
 	//Simpler constructor with only one variable, one temporal extent, vertical extent and one geometry 
 	public SubsetSelector(List<String> variables, TemporalExtent temporalExtent, SpatialExtent spatialExtent, VerticalExtent verticalExtent) {
 		super();
+		this.variables = new ArrayList<String>();
+		this.temporalExtents = new ArrayList<TemporalExtent>();
+		this.spatialExtents = new ArrayList<SpatialExtent>();
+		this.verticalExtents = new ArrayList<VerticalExtent>();
 		this.setVariables(variables);
 		this.setTemporalExtent(temporalExtent);
 		this.setSpatialExtent(spatialExtent);
