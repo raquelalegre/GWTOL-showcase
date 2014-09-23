@@ -1,10 +1,10 @@
-package org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld;
+package uk.ac.rdg.resc.charme.maps.client.jsonld;
 
 import java.util.List;
 
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.Annotation;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.SpatialExtent;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.TemporalExtent;
+import uk.ac.rdg.resc.charme.maps.client.model.Annotation;
+import uk.ac.rdg.resc.charme.maps.client.model.SpatialExtent;
+import uk.ac.rdg.resc.charme.maps.client.model.TemporalExtent;
 
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;

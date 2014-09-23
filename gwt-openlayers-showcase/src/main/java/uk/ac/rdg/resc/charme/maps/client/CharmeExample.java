@@ -15,7 +15,7 @@
  *   limitations under the License.
  */
 
-package org.gwtopenmaps.demo.openlayers.client.examples.charme;
+package uk.ac.rdg.resc.charme.maps.client;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -25,14 +25,6 @@ import javax.inject.Inject;
 import org.gwtopenmaps.demo.openlayers.client.DialogBoxWithCloseButton;
 import org.gwtopenmaps.demo.openlayers.client.basic.AbstractExample;
 import org.gwtopenmaps.demo.openlayers.client.components.store.ShowcaseExampleStore;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld.JSONLDAnnotation;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.Annotation;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.SpatialExtent;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenter;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenter.NewAnnotationPresenterListener;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenterImpl;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.view.NewAnnotationView;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.view.NewAnnotationViewImpl;
 import org.gwtopenmaps.openlayers.client.Icon;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
@@ -54,6 +46,15 @@ import org.gwtopenmaps.openlayers.client.layer.WMSOptions;
 import org.gwtopenmaps.openlayers.client.layer.WMSParams;
 import org.gwtopenmaps.openlayers.client.popup.FramedCloud;
 import org.gwtopenmaps.openlayers.client.popup.Popup;
+
+import uk.ac.rdg.resc.charme.maps.client.jsonld.JSONLDAnnotation;
+import uk.ac.rdg.resc.charme.maps.client.model.Annotation;
+import uk.ac.rdg.resc.charme.maps.client.model.SpatialExtent;
+import uk.ac.rdg.resc.charme.maps.client.presenter.NewAnnotationPresenter;
+import uk.ac.rdg.resc.charme.maps.client.presenter.NewAnnotationPresenterImpl;
+import uk.ac.rdg.resc.charme.maps.client.presenter.NewAnnotationPresenter.NewAnnotationPresenterListener;
+import uk.ac.rdg.resc.charme.maps.client.view.NewAnnotationView;
+import uk.ac.rdg.resc.charme.maps.client.view.NewAnnotationViewImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HTML;

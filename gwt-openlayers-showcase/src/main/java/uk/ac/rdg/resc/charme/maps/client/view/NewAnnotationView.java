@@ -1,7 +1,8 @@
-package org.gwtopenmaps.demo.openlayers.client.examples.charme.view;
+package uk.ac.rdg.resc.charme.maps.client.view;
 
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter.NewAnnotationPresenter;
 import org.gwtopenmaps.openlayers.client.LonLat;
+
+import uk.ac.rdg.resc.charme.maps.client.presenter.NewAnnotationPresenter;
 
 import com.google.gwt.user.client.ui.IsWidget;
 

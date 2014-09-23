@@ -1,4 +1,4 @@
-package org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld;
+package uk.ac.rdg.resc.charme.maps.client.jsonld;
 
 import java.util.List;
 

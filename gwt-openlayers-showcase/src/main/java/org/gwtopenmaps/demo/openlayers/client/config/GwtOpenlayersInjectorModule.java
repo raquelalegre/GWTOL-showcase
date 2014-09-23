@@ -25,7 +25,6 @@ import org.gwtopenmaps.demo.openlayers.client.examples.basicosm.BasicOsmExample;
 import org.gwtopenmaps.demo.openlayers.client.examples.basicosm.BasicOsmUrlExample;
 import org.gwtopenmaps.demo.openlayers.client.examples.basictms.BasicTmsExample;
 import org.gwtopenmaps.demo.openlayers.client.examples.canceldrawing.CancelDrawingExample;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.CharmeExample;
 import org.gwtopenmaps.demo.openlayers.client.examples.click.ClickExample;
 import org.gwtopenmaps.demo.openlayers.client.examples.cluster.AnimatedClusterStrategyTreshHoldExample;
 import org.gwtopenmaps.demo.openlayers.client.examples.cluster.AnimatedClusterWithPopup;
@@ -85,8 +84,11 @@ import org.gwtopenmaps.demo.openlayers.client.puregwt.ShowcaseEventBusImpl;
 
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.gwt.user.client.ui.Image;
+
 import org.gwtopenmaps.demo.openlayers.client.examples.markers.MarkerPopupOverExample;
 import org.gwtopenmaps.demo.openlayers.client.examples.vector.OpaqueVectorLayerExample;
+
+import uk.ac.rdg.resc.charme.maps.client.CharmeExample;
 
 /**
  *

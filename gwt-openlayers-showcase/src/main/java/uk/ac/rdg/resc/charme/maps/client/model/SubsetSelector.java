@@ -1,9 +1,9 @@
-package org.gwtopenmaps.demo.openlayers.client.examples.charme.model;
+package uk.ac.rdg.resc.charme.maps.client.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld.JSONLDSubsetSelector;
+import uk.ac.rdg.resc.charme.maps.client.jsonld.JSONLDSubsetSelector;
 
 /**
  * The Class SubsetSelector contains the elements relative to the subset boundaries (variables, time extent, depth interval and geographic boundaries).
