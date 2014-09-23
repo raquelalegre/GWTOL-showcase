@@ -1,8 +1,8 @@
-package org.gwtopenmaps.demo.openlayers.client.examples.charme.model;
+package uk.ac.rdg.resc.charme.maps.client.model;
 
 import java.util.List;
 
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld.JSONLDAnnotation;
+import uk.ac.rdg.resc.charme.maps.client.jsonld.JSONLDAnnotation;
 
 import com.google.gwt.json.client.JSONObject;
 

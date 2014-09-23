@@ -1,16 +1,17 @@
-package org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter;
+package uk.ac.rdg.resc.charme.maps.client.presenter;
 
 import java.util.List;
 
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld.JSONLDAnnotation;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.Annotation;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.SpatialExtent;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.SpecificResource;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.SubsetSelector;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.TemporalExtent;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.VerticalExtent;
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.view.NewAnnotationView;
 import org.gwtopenmaps.openlayers.client.LonLat;
+
+import uk.ac.rdg.resc.charme.maps.client.jsonld.JSONLDAnnotation;
+import uk.ac.rdg.resc.charme.maps.client.model.Annotation;
+import uk.ac.rdg.resc.charme.maps.client.model.SpatialExtent;
+import uk.ac.rdg.resc.charme.maps.client.model.SpecificResource;
+import uk.ac.rdg.resc.charme.maps.client.model.SubsetSelector;
+import uk.ac.rdg.resc.charme.maps.client.model.TemporalExtent;
+import uk.ac.rdg.resc.charme.maps.client.model.VerticalExtent;
+import uk.ac.rdg.resc.charme.maps.client.view.NewAnnotationView;
 
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.ui.PopupPanel;

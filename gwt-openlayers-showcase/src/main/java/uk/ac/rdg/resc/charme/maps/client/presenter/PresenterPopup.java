@@ -1,4 +1,4 @@
-package org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter;
+package uk.ac.rdg.resc.charme.maps.client.presenter;
 
 import com.google.gwt.user.client.ui.PopupPanel;
 

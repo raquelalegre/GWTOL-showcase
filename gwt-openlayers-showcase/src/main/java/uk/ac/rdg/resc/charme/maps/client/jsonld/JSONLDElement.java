@@ -1,4 +1,4 @@
-package org.gwtopenmaps.demo.openlayers.client.examples.charme.jsonld;
+package uk.ac.rdg.resc.charme.maps.client.jsonld;
 
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;

@@ -1,8 +1,8 @@
-package org.gwtopenmaps.demo.openlayers.client.examples.charme.presenter;
+package uk.ac.rdg.resc.charme.maps.client.presenter;
 
 import java.util.List;
 
-import org.gwtopenmaps.demo.openlayers.client.examples.charme.model.Annotation;
+import uk.ac.rdg.resc.charme.maps.client.model.Annotation;
 
 /**
  * The Interface NewAnnotationPresenter.

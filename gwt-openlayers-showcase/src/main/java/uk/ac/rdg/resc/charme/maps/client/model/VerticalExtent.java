@@ -1,4 +1,4 @@
-package org.gwtopenmaps.demo.openlayers.client.examples.charme.model;
+package uk.ac.rdg.resc.charme.maps.client.model;
 
 
 //TODO: It's not been defined yet how a vertical extent looks like
